@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using PaintBruhLibrary;
+
+using Triangle = PaintBruhLibrary.Triangle;
 
 namespace Paint_bruh
 {

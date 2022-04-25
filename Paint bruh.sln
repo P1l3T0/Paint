@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32228.430
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Paint bruh", "Paint bruh.csproj", "{4B737B66-8564-4AFE-9AFA-25F2607D269C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaintBruhLibrary", "..\PaintBruhLibrary\PaintBruhLibrary.csproj", "{9F351CD1-066A-4048-8026-91DE172569D2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4B737B66-8564-4AFE-9AFA-25F2607D269C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B737B66-8564-4AFE-9AFA-25F2607D269C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B737B66-8564-4AFE-9AFA-25F2607D269C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F351CD1-066A-4048-8026-91DE172569D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F351CD1-066A-4048-8026-91DE172569D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F351CD1-066A-4048-8026-91DE172569D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F351CD1-066A-4048-8026-91DE172569D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

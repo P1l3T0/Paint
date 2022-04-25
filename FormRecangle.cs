@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using PaintBruhLibrary;
+
+using Rectangle = PaintBruhLibrary.Rectangle;
 
 namespace Paint_bruh
 {

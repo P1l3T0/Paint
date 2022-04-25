@@ -6,13 +6,19 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
+using PaintBruhLibrary;
+
+using Rectangle = PaintBruhLibrary.Rectangle;
+using Ellipse = PaintBruhLibrary.Ellipse;
+using Triangle = PaintBruhLibrary.Triangle;
+using StraightLine = PaintBruhLibrary.StraightLine;
 
 namespace Paint_bruh
 {
-    public partial class FormScene : Form, IGraphics //dobavi dopulnitelni neshta bruh
+    public partial class FormScene : Form, IGraphics
     { 
+        public Color newColor; 
         public static int lineIndex;
-        public static Color newColor; 
         public static bool moveA, moveB, moveC;
 
         int buttonIndex;

@@ -8,10 +8,11 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Paint_bruh</RootNamespace>
     <AssemblyName>Paint bruh</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -46,7 +47,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ellipse.cs" />
+    <Compile Include="FormEllipse.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEllipse.Designer.cs">
+      <DependentUpon>FormEllipse.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormRecangle.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,12 +64,6 @@
     </Compile>
     <Compile Include="FormScene.Designer.cs">
       <DependentUpon>FormScene.cs</DependentUpon>
-    </Compile>
-    <Compile Include="FormEllipse.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormEllipse.Designer.cs">
-      <DependentUpon>FormEllipse.cs</DependentUpon>
     </Compile>
     <Compile Include="FormStraightLine.cs">
       <SubType>Form</SubType>
@@ -77,8 +77,6 @@
     <Compile Include="FormTriangle.Designer.cs">
       <DependentUpon>FormTriangle.cs</DependentUpon>
     </Compile>
-    <Compile Include="Exceptions\InvalidValueExceptions.cs" />
-    <Compile Include="IGraphics.cs" />
     <Compile Include="LineSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,18 +85,14 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rectangle.cs" />
-    <Compile Include="Shape.cs" />
-    <Compile Include="StraightLine.cs" />
-    <Compile Include="Triangle.cs" />
+    <EmbeddedResource Include="FormEllipse.resx">
+      <DependentUpon>FormEllipse.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormRecangle.resx">
       <DependentUpon>FormRecangle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormScene.resx">
       <DependentUpon>FormScene.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormEllipse.resx">
-      <DependentUpon>FormEllipse.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormStraightLine.resx">
       <DependentUpon>FormStraightLine.cs</DependentUpon>
@@ -117,6 +111,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -130,6 +125,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PaintBruhLibrary\PaintBruhLibrary.csproj">
+      <Project>{9f351cd1-066a-4048-8026-91de172569d2}</Project>
+      <Name>PaintBruhLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

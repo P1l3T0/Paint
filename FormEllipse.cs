@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using PaintBruhLibrary;
+
+using Ellipse = PaintBruhLibrary.Ellipse;
 
 namespace Paint_bruh
 {

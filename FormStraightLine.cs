@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using PaintBruhLibrary;
+
+using StraightLine = PaintBruhLibrary.StraightLine;
 
 namespace Paint_bruh
 {
