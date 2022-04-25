@@ -78,6 +78,7 @@
       <DependentUpon>FormTriangle.cs</DependentUpon>
     </Compile>
     <Compile Include="Exceptions\InvalidValueExceptions.cs" />
+    <Compile Include="IGraphics.cs" />
     <Compile Include="LineSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>

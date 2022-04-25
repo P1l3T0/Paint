@@ -30,25 +30,13 @@ namespace Paint_bruh
             }
         }
 
-        public override void PaintShape(Graphics graphics)
-        {
-            Point[] points = new Point[] { A, B, C };
-
+        public override void PaintShape(IGraphics graphics)
+        { 
             var selectedColorBorder = isSelected
                 ? FormScene.newColor
                 : colorBorder;
 
-            using (var brush = new SolidBrush(colorFill))
-            {
-                graphics.FillPolygon(brush, points); //ne se zapulva vse oshte a ne znam zashto (shte go opravq po natatuka)
-            }
-
-            using (var pen = new Pen(selectedColorBorder, 5))
-            {
-                graphics.DrawLine(pen, A, B);
-                graphics.DrawLine(pen, A, C);
-                graphics.DrawLine(pen, B, C);
-            }
+            graphics.DrawTriangle(selectedColorBorder, colorFill, A, B, C);
         }
 
         public override bool PointInShape(Point point)

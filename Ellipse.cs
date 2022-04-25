@@ -40,17 +40,13 @@ namespace Paint_bruh
 
         public override float area { get => (float)(Math.PI * Math.Pow(radius1 + radius2, 2)); }
 
-        public override void PaintShape(Graphics graphics)
+        public override void PaintShape(IGraphics graphics)
         {
             var selectedColorBorder = isSelected
                 ? FormScene.newColor
                 : colorBorder;
 
-            using (var brush = new SolidBrush(colorFill))
-                graphics.FillEllipse(brush, location.X, location.Y, radius1, radius2);
-
-            using (var pen = new Pen(selectedColorBorder, 5))
-                graphics.DrawEllipse(pen, location.X, location.Y, radius1, radius2);
+            graphics.DrawEllipse(selectedColorBorder, colorFill, location.X, location.Y, radius1, radius2);
         }
 
         public override bool PointInShape(Point point)

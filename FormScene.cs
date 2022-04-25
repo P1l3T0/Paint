@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Paint_bruh
 {
-    public partial class FormScene : Form //dobavi dopulnitelni neshta bruh
+    public partial class FormScene : Form, IGraphics //dobavi dopulnitelni neshta bruh
     { 
         public static int lineIndex;
         public static Color newColor; 
@@ -29,6 +29,8 @@ namespace Paint_bruh
         Point mouseDownLocation;
 
         ColorDialog colorDialog = new ColorDialog();
+        Graphics onPaintGraphics;
+
 
         public FormScene()
         {
@@ -38,17 +40,79 @@ namespace Paint_bruh
             FixDialogBox();
         }
 
+        public void DrawRectangle(Color colorBorder, Color colorFill, int x, int y, int width, int height)
+        {
+            if (onPaintGraphics != null)
+            {
+                using (var brush = new SolidBrush(colorFill))
+                    onPaintGraphics.FillRectangle(brush, x, y, width, height);
+
+                using (var pen = new Pen(colorBorder, 5))
+                    onPaintGraphics.DrawRectangle(pen, x, y, width, height);
+            }
+        }
+
+        public void DrawEllipse(Color colorBorder, Color colorFill, int x, int y, int radius1, int radius2)
+        {
+            if (onPaintGraphics != null)
+            {
+                using (var brush = new SolidBrush(colorFill))
+                    onPaintGraphics.FillEllipse(brush, x, y, radius1, radius2);
+
+                using (var pen = new Pen(colorBorder, 5))
+                    onPaintGraphics.DrawEllipse(pen, x, y, radius1, radius2);
+            }
+        }
+
+        public void DrawTriangle(Color colorBorder, Color colorFill, Point a, Point b, Point c)
+        {
+            Point[] points = new Point[] { a, b, c };
+
+            if (onPaintGraphics != null)
+            {
+                using (var brush = new SolidBrush(colorFill))
+                    onPaintGraphics.FillPolygon(brush, points); //ne se zapulva vse oshte a ne znam zashto (shte go opravq po natatuka)
+
+                using (var pen = new Pen(colorBorder, 5))
+                {
+                    onPaintGraphics.DrawLine(pen, a, b);
+                    onPaintGraphics.DrawLine(pen, a, c);
+                    onPaintGraphics.DrawLine(pen, b, c);
+                }
+            }
+        }
+
+        public void DrawStraightLine(Color colorBorder, Color colorFill, int x, int y, int width, int height, Point firstPoint, Point lastPoint)
+        {
+            if (onPaintGraphics != null)
+            {
+                using (var brush = new SolidBrush(colorFill))
+                    onPaintGraphics.FillRectangle(brush, x, y, width, height);
+
+                using (var pen = new Pen(colorBorder, 2))
+                    onPaintGraphics.DrawRectangle(pen, x, y, width, height);
+
+                using (var pen = new Pen(colorBorder, 2))
+                    onPaintGraphics.DrawLine(pen, firstPoint, lastPoint); //pravi prava liniq s nachalna i kraina tochka
+            }
+        }
+
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
 
-            foreach (var s in shapes)
-                s.PaintShape(e.Graphics);
+            onPaintGraphics = e.Graphics;
 
-            frameRectangle?.PaintShape(e.Graphics);
-            frameEllipse?.PaintShape(e.Graphics);
-            frameTriangle?.PaintShape(e.Graphics);
-            frameStraightLine?.PaintShape(e.Graphics);
+            foreach (var s in shapes)
+                s.PaintShape(this);
+
+            frameRectangle?.PaintShape(this);
+            frameEllipse?.PaintShape(this);
+            frameTriangle?.PaintShape(this);
+            frameStraightLine?.PaintShape(this);
+
+            onPaintGraphics = null;
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)

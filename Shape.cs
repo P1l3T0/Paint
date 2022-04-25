@@ -25,7 +25,7 @@ namespace Paint_bruh
             set => _isSelected = value;
         }
 
-        public abstract void PaintShape(Graphics graphics);
+        public abstract void PaintShape(IGraphics graphics);
 
         public abstract bool PointInShape(Point point);
     }

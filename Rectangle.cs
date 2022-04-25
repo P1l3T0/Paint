@@ -40,17 +40,13 @@ namespace Paint_bruh
             }
         }
 
-        public override void PaintShape(Graphics graphics)
+        public override void PaintShape(IGraphics graphics)
         {
             var selectedColorBorder = isSelected
                 ? FormScene.newColor
                 : colorBorder;
 
-            using (var brush = new SolidBrush(colorFill))
-                graphics.FillRectangle(brush, location.X, location.Y, width, height);
-
-            using (var pen = new Pen(selectedColorBorder, 5))
-                graphics.DrawRectangle(pen, location.X, location.Y, width, height); 
+            graphics.DrawRectangle(selectedColorBorder, colorFill, location.X, location.Y, width, height);
         }
 
         public override bool PointInShape(Point point)

@@ -43,20 +43,13 @@ namespace Paint_bruh
 
         public override float area { get => (float)(width * height); }
 
-        public override void PaintShape(Graphics graphics)
+        public override void PaintShape(IGraphics graphics)
         {
             var selectedColorBorder = isSelected
                 ? FormScene.newColor
                 : colorBorder;
 
-            using (var brush = new SolidBrush(colorFill))
-                graphics.FillRectangle(brush, location.X, location.Y, width, height);
-
-            using (var pen = new Pen(selectedColorBorder, 2))
-                graphics.DrawRectangle(pen, location.X, location.Y, width, height);
-
-            using (var pen = new Pen(selectedColorBorder, 2))
-                graphics.DrawLine(pen, firstPoint, lastPoint); //pravi prava liniq s nachalna i kraina tochka
+            graphics.DrawStraightLine(selectedColorBorder, colorFill, location.X, location.Y, width, height, firstPoint, lastPoint);
         }
 
         public override bool PointInShape(Point point)
