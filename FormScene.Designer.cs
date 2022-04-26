@@ -1,4 +1,4 @@
-﻿namespace Paint_bruh
+﻿namespace Paint_bruh_vektorna_grafika_edition
 {
     partial class FormScene
     {
@@ -33,7 +33,7 @@
             this.pictureBoxStraightLine = new System.Windows.Forms.PictureBox();
             this.pictureBoxTriangle = new System.Windows.Forms.PictureBox();
             this.pictureBoxRectangle = new System.Windows.Forms.PictureBox();
-            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonOpen = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.buttonColor = new System.Windows.Forms.Button();
             this.buttonClear = new System.Windows.Forms.Button();
@@ -96,16 +96,18 @@
             this.pictureBoxRectangle.TabStop = false;
             this.pictureBoxRectangle.Click += new System.EventHandler(this.pictureBoxRectangle_Click);
             // 
-            // buttonSave
+            // buttonOpen
             // 
-            this.buttonSave.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.buttonSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSave.Location = new System.Drawing.Point(1150, 21);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(88, 33);
-            this.buttonSave.TabIndex = 5;
-            this.buttonSave.Text = "Save";
-            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonOpen.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonOpen.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonOpen.Location = new System.Drawing.Point(1150, 12);
+            this.buttonOpen.Name = "buttonOpen";
+            this.buttonOpen.Size = new System.Drawing.Size(88, 36);
+            this.buttonOpen.TabIndex = 5;
+            this.buttonOpen.Text = "Open";
+            this.buttonOpen.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.buttonOpen.UseVisualStyleBackColor = true;
+            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
             // 
             // panel2
             // 
@@ -115,7 +117,7 @@
             this.panel2.Controls.Add(this.buttonBaclgroundColor);
             this.panel2.Controls.Add(this.panel1);
             this.panel2.Controls.Add(this.pictureBoxPalette);
-            this.panel2.Controls.Add(this.buttonSave);
+            this.panel2.Controls.Add(this.buttonOpen);
             this.panel2.Location = new System.Drawing.Point(1, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1268, 113);
@@ -139,9 +141,9 @@
             // 
             this.buttonClear.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonClear.Location = new System.Drawing.Point(1150, 63);
+            this.buttonClear.Location = new System.Drawing.Point(1150, 65);
             this.buttonClear.Name = "buttonClear";
-            this.buttonClear.Size = new System.Drawing.Size(88, 33);
+            this.buttonClear.Size = new System.Drawing.Size(88, 36);
             this.buttonClear.TabIndex = 14;
             this.buttonClear.Text = "Clear";
             this.buttonClear.UseVisualStyleBackColor = true;
@@ -212,7 +214,6 @@
             this.Name = "FormScene";
             this.Text = "Paint bruh (vektorna grafika edition)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormScene_FormClosing);
-            this.Load += new System.EventHandler(this.FormScene_Load);
             this.DoubleClick += new System.EventHandler(this.FormScene_DoubleClick);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
@@ -236,7 +237,7 @@
         private System.Windows.Forms.PictureBox pictureBoxStraightLine;
         private System.Windows.Forms.PictureBox pictureBoxTriangle;
         private System.Windows.Forms.PictureBox pictureBoxRectangle;
-        private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonOpen;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.PictureBox pictureBoxPalette;
         private System.Windows.Forms.Panel panel1;

@@ -17,25 +17,24 @@ namespace Paint_bruh
 {
     public partial class FormScene : Form, IGraphics
     { 
-        public Color newColor; 
-        public static int lineIndex;
-        public static bool moveA, moveB, moveC;
+        public static int lineIndex; //indeksa na horizontalna/vertikalna/2Point liniq
+        public static bool moveA, moveB, moveC; //murdane ne triugulnik
 
-        int buttonIndex;
-        bool shapeMove;
+        int buttonIndex; //indeksa na daden byton za figyra
+        bool shapeMove; //dali se murda figyra
 
-        List<Shape> shapes = new List<Shape>();
-        List<Triangle> triangles = new List<Triangle>();
+        List<Shape> shapes = new List<Shape>(); //list of vsichki figyri
+        List<Triangle> triangles = new List<Triangle>(); //list samo ot triugulnici (trqbva mi za da gi murdam, leko e zaburkano)
 
-        Rectangle frameRectangle;
+        Rectangle frameRectangle; //ramki na figyrite
         Ellipse frameEllipse;
         Triangle frameTriangle;
         StraightLine frameStraightLine;
 
-        Point mouseDownLocation;
+        Point mouseDownLocation; //lokaciqta na mishkata v realno vreme
+        Color newColor;  //cvqt za ramkite
 
-        ColorDialog colorDialog = new ColorDialog();
-        Graphics onPaintGraphics;
+        Graphics onPaintGraphics; //grafichen obekt, s koito prechertavam
 
 
         public FormScene()
@@ -56,7 +55,7 @@ namespace Paint_bruh
                 using (var pen = new Pen(colorBorder, 5))
                     onPaintGraphics.DrawRectangle(pen, x, y, width, height);
             }
-        }
+        } //metodi ot IGraphics za izchertavane na figyrite
 
         public void DrawEllipse(Color colorBorder, Color colorFill, int x, int y, int radius1, int radius2)
         {
@@ -123,7 +122,7 @@ namespace Paint_bruh
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
+            if (e.Button == MouseButtons.Right) //klikash s mishkata i zapochvash da izchertavash ramkata na selektiranata figyra
             {
                 mouseDownLocation = e.Location;
 
@@ -151,10 +150,10 @@ namespace Paint_bruh
             }
             else
             {
-                for (int s = 0; s < shapes.Count(); s++)
-                    shapes[s].isSelected = false;
+                for (int s = 0; s < shapes.Count(); s++) //figyrata sse deselktira sled kato kliknesh izvun neq
+                    shapes[s].isSelected = false; 
 
-                for (int s = shapes.Count() - 1; s >= 0; s--)
+                for (int s = shapes.Count() - 1; s >= 0; s--) //figyrata se selektira sled kato q kliknesh
                     if (shapes[s].PointInShape(e.Location))
                     {
                         shapes[s].isSelected = true;
@@ -188,7 +187,7 @@ namespace Paint_bruh
                         }
                 }
 
-            if (frameRectangle != null) //koordinati i ramka na novopostaveni figyri
+            if (frameRectangle != null) //koordinati, razmeri i tochki na novosuzdadenite figyri
             {
                 frameRectangle.location = new Point
                 {
@@ -284,7 +283,7 @@ namespace Paint_bruh
 
             var rng = new Random();
 
-            if (frameRectangle != null) //zapulva pravougulnik
+            if (frameRectangle != null) //zapulva figyrite s random cvqt i gi dobavq kum listite
             {
                 frameRectangle.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                 frameRectangle.colorFill = Color.FromArgb(150, frameRectangle.colorBorder);
@@ -297,7 +296,7 @@ namespace Paint_bruh
                 frameRectangle = null;
             }
 
-            if (frameEllipse != null) //zapulva elipsa
+            if (frameEllipse != null) 
             {
                 frameEllipse.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                 frameEllipse.colorFill = Color.FromArgb(150, frameEllipse.colorBorder);
@@ -310,7 +309,7 @@ namespace Paint_bruh
                 frameEllipse = null;
             }
 
-            if (frameTriangle != null) //zapulva triugulnik (leko ne raboti, will fix later)
+            if (frameTriangle != null) 
             {
                 frameTriangle.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                 frameTriangle.colorFill = Color.FromArgb(150, frameTriangle.colorBorder);
@@ -324,7 +323,7 @@ namespace Paint_bruh
                 frameTriangle = null;
             }
 
-            if (frameStraightLine != null) //zapulva prava liniq (vertikalna/horizontalna/s na4alna/kraina to4ka)
+            if (frameStraightLine != null)
             {
                 frameStraightLine.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                 frameStraightLine.colorFill = Color.FromArgb(150, frameStraightLine.colorBorder);
@@ -340,14 +339,14 @@ namespace Paint_bruh
             Invalidate();
         }
 
-        private void FixDialogBox()
+        private void FixDialogBox() //opravq gadnoto premigvane, koeto mi dokarva epilepsiq
         {
             SetStyle(ControlStyles.UserPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.AllPaintingInWmPaint, true);
         }
 
-        private void Buttons()
+        private void Buttons() //dobavq bytonite na figyrite v list i pravi gotin efekt kogato mishkata e vurhy tqh :)
         {
             List<PictureBox> pictureBoxes = new List<PictureBox>();
 
@@ -407,8 +406,10 @@ namespace Paint_bruh
             Invalidate();
         }
 
-        private void buttonColor_Click(object sender, EventArgs e) //smenq cveta na moliva (koito oshte ne sum dobavil)
+        private void buttonColor_Click(object sender, EventArgs e) //smenq cveta newColor)
         {
+            ColorDialog colorDialog = new ColorDialog();
+
             colorDialog.ShowDialog();
             newColor = colorDialog.Color;
 
@@ -440,24 +441,32 @@ namespace Paint_bruh
             buttonBaclgroundColor.BackColor = Color.White;
         }
 
-        private void FormScene_Load(object sender, EventArgs e) //prochita baitovete na zapisanite figyri
-        {
-            if (!File.Exists("data"))
-                return;
-
-            IFormatter formatter = new BinaryFormatter();
-
-            using (var fileStream = new FileStream("data", FileMode.Open))
-                shapes = (List<Shape>)formatter.Deserialize(fileStream); //prochita zapisanite figyri
-        }
-
         private void FormScene_FormClosing(object sender, FormClosingEventArgs e) //zapisva baitovete na figyri na ekrana
         {
-            IFormatter formatter = new BinaryFormatter();
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
 
-            using (var fileStream = new FileStream("data", FileMode.Create))
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                IFormatter formatter = new BinaryFormatter();
+
+                using (var fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create))
                 formatter.Serialize(fileStream, shapes);
+            }
         }
+
+        private void buttonOpen_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                IFormatter formatter = new BinaryFormatter();
+
+                using (var fileStream = new FileStream(openFileDialog.FileName, FileMode.Open))
+                    shapes = (List<Shape>)formatter.Deserialize(fileStream); //prochita zapisanite figyri
+                Invalidate();
+            }
+        } //otvarq bitovite danni na vechezapisani figyri
 
         static Point SetPoint(PictureBox pictureBox, Point point)
         {
@@ -467,7 +476,7 @@ namespace Paint_bruh
             return new Point((int)(point.X * pointX), (int)(point.Y * pointY));
         } //nujno e za paletite na cvetovete
 
-        private void pictureBoxPalette_MouseClick(object sender, MouseEventArgs e)
+        private void pictureBoxPalette_MouseClick(object sender, MouseEventArgs e) //vzema pikselite na picture boks-a i zadava cveta im kum newColor
         {
             Point point = SetPoint(pictureBoxPalette, e.Location);
 
