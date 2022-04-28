@@ -190,7 +190,7 @@
             this.buttonBaclgroundColor.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonBaclgroundColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonBaclgroundColor.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.buttonBaclgroundColor.Location = new System.Drawing.Point(447, 32);
+            this.buttonBaclgroundColor.Location = new System.Drawing.Point(504, 32);
             this.buttonBaclgroundColor.Name = "buttonBaclgroundColor";
             this.buttonBaclgroundColor.Size = new System.Drawing.Size(50, 50);
             this.buttonBaclgroundColor.TabIndex = 13;
@@ -207,7 +207,7 @@
             this.panel1.Controls.Add(this.pictureBoxCircle);
             this.panel1.Controls.Add(this.pictureBoxStraightLine);
             this.panel1.Controls.Add(this.pictureBoxTriangle);
-            this.panel1.Location = new System.Drawing.Point(503, 12);
+            this.panel1.Location = new System.Drawing.Point(560, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(488, 89);
             this.panel1.TabIndex = 11;
