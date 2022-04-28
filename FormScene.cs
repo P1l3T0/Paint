@@ -12,13 +12,14 @@ using Rectangle = PaintBruhLibrary.Rectangle;
 using Ellipse = PaintBruhLibrary.Ellipse;
 using Triangle = PaintBruhLibrary.Triangle;
 using StraightLine = PaintBruhLibrary.StraightLine;
+using System.Drawing.Imaging;
 
 namespace Paint_bruh
 {
     public partial class FormScene : Form, IGraphics
     { 
-        public static int lineIndex; //indeksa na horizontalna/vertikalna/2Point liniq
-        public static bool moveA, moveB, moveC; //murdane ne triugulnik
+        public static int lineIndex; //indeksa na horizontalna/vertikalna/2Point liniq 🐣
+        public static bool moveA, moveB, moveC; //murdane ne triugulnik 
 
         int buttonIndex; //indeksa na daden byton za figyra
         bool shapeMove; //dali se murda figyra
@@ -32,16 +33,20 @@ namespace Paint_bruh
         StraightLine frameStraightLine;
 
         Point mouseDownLocation; //lokaciqta na mishkata v realno vreme
-        Color newColor;  //cvqt za ramkite
+        Color newColor; //cvqt za ramkite
 
         Graphics onPaintGraphics; //grafichen obekt, s koito prechertavam
 
+        Bitmap bitmap; //bitmap za razmerite na programata
+        Graphics graphics; 
+        bool paint; //da proverqva dali zadurjam mishakta
 
         public FormScene()
         {
             InitializeComponent();
 
             Buttons();
+            BitmapImage();
             FixDialogBox();
         }
 
@@ -52,7 +57,7 @@ namespace Paint_bruh
                 using (var brush = new SolidBrush(colorFill))
                     onPaintGraphics.FillRectangle(brush, x, y, width, height);
 
-                using (var pen = new Pen(colorBorder, 5))
+                using (var pen = new Pen(colorBorder, 3))
                     onPaintGraphics.DrawRectangle(pen, x, y, width, height);
             }
         } //metodi ot IGraphics za izchertavane na figyrite
@@ -64,7 +69,7 @@ namespace Paint_bruh
                 using (var brush = new SolidBrush(colorFill))
                     onPaintGraphics.FillEllipse(brush, x, y, radius1, radius2);
 
-                using (var pen = new Pen(colorBorder, 5))
+                using (var pen = new Pen(colorBorder, 3))
                     onPaintGraphics.DrawEllipse(pen, x, y, radius1, radius2);
             }
         }
@@ -78,7 +83,7 @@ namespace Paint_bruh
                 using (var brush = new SolidBrush(colorFill))
                     onPaintGraphics.FillPolygon(brush, points); //ne se zapulva vse oshte a ne znam zashto (shte go opravq po natatuka)
 
-                using (var pen = new Pen(colorBorder, 5))
+                using (var pen = new Pen(colorBorder, 3))
                 {
                     onPaintGraphics.DrawLine(pen, a, b);
                     onPaintGraphics.DrawLine(pen, a, c);
@@ -102,7 +107,6 @@ namespace Paint_bruh
             }
         }
 
-
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -120,10 +124,11 @@ namespace Paint_bruh
             onPaintGraphics = null;
         }
 
-        private void Form1_MouseDown(object sender, MouseEventArgs e)
+        private void pictureBoxScene_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right) //klikash s mishkata i zapochvash da izchertavash ramkata na selektiranata figyra
             {
+                paint = true;
                 mouseDownLocation = e.Location;
 
                 switch (buttonIndex)
@@ -133,25 +138,25 @@ namespace Paint_bruh
 
                     case 1:
                         frameRectangle = new Rectangle { colorBorder = newColor };
-                    break;
+                        break;
 
                     case 2:
                         frameEllipse = new Ellipse { colorBorder = newColor };
-                    break;
+                        break;
 
                     case 3:
                         frameTriangle = new Triangle { colorBorder = newColor };
-                    break;
+                        break;
 
                     case 4:
                         frameStraightLine = new StraightLine { colorBorder = newColor };
-                    break;
+                        break;
                 }
             }
             else
             {
-                for (int s = 0; s < shapes.Count(); s++) //figyrata sse deselktira sled kato kliknesh izvun neq
-                    shapes[s].isSelected = false; 
+                for (int s = 0; s < shapes.Count(); s++) //figyrata se deselktira sled kato kliknesh izvun neq
+                    shapes[s].isSelected = false;
 
                 for (int s = shapes.Count() - 1; s >= 0; s--) //figyrata se selektira sled kato q kliknesh
                     if (shapes[s].PointInShape(e.Location))
@@ -162,30 +167,43 @@ namespace Paint_bruh
             }
         }
 
-        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        private void pictureBoxScene_MouseMove(object sender, MouseEventArgs e)
         {
-            if (buttonIndex == 5)
-                if (e.Button == MouseButtons.Left)
-                {
-                    for (int i = shapes.Count() - 1; i >= 0; i--) //murdane na figyrite s mishkata
-                        if (shapes[i].isSelected)
-                        {
-                            shapes[i].location = e.Location;
-                            shapeMove = true;
-                        }
-                        else shapes[i].isSelected = false;
+            switch (buttonIndex)
+            {
+                case 5:
+                    if (paint)
+                    {
+                        Point pointX = e.Location;
+                        graphics.DrawLine(new Pen(newColor, 2), pointX, mouseDownLocation);
+                        mouseDownLocation = pointX;
+                    }
+                    break;
 
-                    for (int i = triangles.Count() - 1; i >= 0; i--) //murdane na triugulnicite po mnogo inovativen nachin bruh
-                        if (triangles[i].isSelected)
-                        {
-                            if (moveA)
-                                triangles[i].A = e.Location;
-                            else if (moveB)
-                                triangles[i].B = e.Location;
-                            else if (moveC)
-                                triangles[i].C = e.Location;
-                        }
-                }
+                case 6:
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        for (int i = shapes.Count() - 1; i >= 0; i--) //murdane na figyrite s mishkata
+                            if (shapes[i].isSelected)
+                            {
+                                shapes[i].location = e.Location;
+                                shapeMove = true;
+                            }
+                            else shapes[i].isSelected = false;
+
+                        for (int i = triangles.Count() - 1; i >= 0; i--) //murdane na triugulnicite po mnogo inovativen nachin bruh
+                            if (triangles[i].isSelected)
+                            {
+                                if (moveA)
+                                    triangles[i].A = e.Location;
+                                else if (moveB)
+                                    triangles[i].B = e.Location;
+                                else if (moveC)
+                                    triangles[i].C = e.Location;
+                            }
+                    }
+                    break;
+            }
 
             if (frameRectangle != null) //koordinati, razmeri i tochki na novosuzdadenite figyri
             {
@@ -246,7 +264,7 @@ namespace Paint_bruh
 
                         frameStraightLine.width = Math.Abs(mouseDownLocation.X - e.Location.X);
                         frameStraightLine.height = 1;
-                        break;
+                    break;
 
                     case 2:
                         frameStraightLine.location = new Point
@@ -257,13 +275,13 @@ namespace Paint_bruh
 
                         frameStraightLine.width = 1;
                         frameStraightLine.height = Math.Abs(mouseDownLocation.Y - e.Location.Y);
-                        break;
+                    break;
 
                     case 3:
                         frameStraightLine.location = new Point
                         {
                             X = Math.Min(mouseDownLocation.X, e.Location.X),
-                            Y = Math.Min(mouseDownLocation.Y, mouseDownLocation.Y)
+                            Y = Math.Min(mouseDownLocation.Y, e.Location.Y)
                         };
 
                         Point start = new Point(mouseDownLocation.X, mouseDownLocation.Y);
@@ -271,13 +289,15 @@ namespace Paint_bruh
 
                         frameStraightLine.firstPoint = start;
                         frameStraightLine.lastPoint = end;
-                        break;
+                    break;
                 }
             Invalidate();
         }
 
-        private void Form1_MouseUp(object sender, MouseEventArgs e)
+        private void pictureBoxScene_MouseUp(object sender, MouseEventArgs e)
         {
+            paint = false;
+
             if (shapeMove)
                 shapeMove = false; //resetva shape move sled kato se otpusne mishkata
 
@@ -296,7 +316,7 @@ namespace Paint_bruh
                 frameRectangle = null;
             }
 
-            if (frameEllipse != null) 
+            if (frameEllipse != null)
             {
                 frameEllipse.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                 frameEllipse.colorFill = Color.FromArgb(150, frameEllipse.colorBorder);
@@ -309,7 +329,7 @@ namespace Paint_bruh
                 frameEllipse = null;
             }
 
-            if (frameTriangle != null) 
+            if (frameTriangle != null)
             {
                 frameTriangle.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                 frameTriangle.colorFill = Color.FromArgb(150, frameTriangle.colorBorder);
@@ -354,6 +374,7 @@ namespace Paint_bruh
             pictureBoxes.Add(pictureBoxTriangle);
             pictureBoxes.Add(pictureBoxCircle);
             pictureBoxes.Add(pictureBoxRectangle);
+            pictureBoxes.Add(pictureBoxPencil);
             pictureBoxes.Add(pictureBoxCursor);
 
             foreach (var pictureBox in pictureBoxes)
@@ -363,7 +384,18 @@ namespace Paint_bruh
             }
         }
 
-        private void FormScene_DoubleClick(object sender, EventArgs e) //otvarq nov prozorec v koito ima danni za figyrite
+        private void BitmapImage()
+        {
+            this.Width = 1280;
+            this.Height = 800;
+
+            bitmap = new Bitmap(this.Width, this.Height);
+            graphics = Graphics.FromImage(bitmap);
+            graphics.Clear(Color.Transparent);
+            pictureBoxScene.Image = bitmap;
+        }
+
+        private void pictureBoxScene_DoubleClick(object sender, EventArgs e)
         {
             foreach (var shape in shapes)
                 if (shape.isSelected)
@@ -373,25 +405,25 @@ namespace Paint_bruh
                             var fr = new FormRecangle();
                             fr.rectangle = (Rectangle)shape;
                             fr.ShowDialog();
-                        break;
+                            break;
 
                         case 2:
                             var fe = new FormEllipse();
                             fe.ellipse = (Ellipse)shape;
                             fe.ShowDialog();
-                        break;
+                            break;
 
                         case 3:
                             var ft = new FormTriangle();
                             ft.triangle = (Triangle)shape;
                             ft.ShowDialog();
-                        break;
+                            break;
 
                         case 4:
                             var fsl = new FormStraightLine();
                             fsl.straightLine = (StraightLine)shape;
                             fsl.ShowDialog();
-                        break;
+                            break;
                     }
             Invalidate();
         }
@@ -437,11 +469,27 @@ namespace Paint_bruh
             for (int i = shapes.Count() - 1; i >= 0; i--)
                 shapes.RemoveAt(i);
 
-            this.BackColor = Color.White;
+            //pictureBoxScene.BackColor = Color.Transparent;
+            graphics.Clear(Color.Transparent);
             buttonBaclgroundColor.BackColor = Color.White;
+            this.BackColor = Color.White;
         }
 
-        private void FormScene_FormClosing(object sender, FormClosingEventArgs e) //zapisva baitovete na figyri na ekrana
+        private void buttonImage_Click(object sender, EventArgs e) //zapazva kato snimka
+        {
+            var sfd = new SaveFileDialog();
+
+            sfd.Filter = "Image(*.png) | *.png | (*.*|*.*";
+
+            if (sfd.ShowDialog() == DialogResult.OK)
+            {
+                Bitmap btm = bitmap.Clone(new System.Drawing.Rectangle(0, 0, pictureBoxScene.Width, pictureBoxScene.Height), bitmap.PixelFormat);
+                btm.Save(sfd.FileName, ImageFormat.Png);
+                MessageBox.Show("Image saved!");
+            }
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e) //zapazva dannite na figyrite
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
@@ -450,7 +498,7 @@ namespace Paint_bruh
                 IFormatter formatter = new BinaryFormatter();
 
                 using (var fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create))
-                formatter.Serialize(fileStream, shapes);
+                    formatter.Serialize(fileStream, shapes);
             }
         }
 
@@ -507,9 +555,14 @@ namespace Paint_bruh
             lsf.ShowDialog();
         }
 
-        private void pictureBoxCursor_Click(object sender, EventArgs e)
+        private void pictureBoxPencil_Click(object sender, EventArgs e)
         {
             buttonIndex = 5;
+        }
+
+        private void pictureBoxCursor_Click(object sender, EventArgs e)
+        {
+            buttonIndex = 6;
         }
     }
 }

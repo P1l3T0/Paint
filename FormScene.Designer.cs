@@ -1,4 +1,4 @@
-﻿namespace Paint_bruh_vektorna_grafika_edition
+﻿namespace Paint_bruh
 {
     partial class FormScene
     {
@@ -35,20 +35,26 @@
             this.pictureBoxRectangle = new System.Windows.Forms.PictureBox();
             this.buttonOpen = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.buttonSave = new System.Windows.Forms.Button();
+            this.buttonImage = new System.Windows.Forms.Button();
             this.buttonColor = new System.Windows.Forms.Button();
             this.buttonClear = new System.Windows.Forms.Button();
             this.buttonBaclgroundColor = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.pictureBoxPencil = new System.Windows.Forms.PictureBox();
             this.pictureBoxCursor = new System.Windows.Forms.PictureBox();
             this.pictureBoxPalette = new System.Windows.Forms.PictureBox();
+            this.pictureBoxScene = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCircle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStraightLine)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTriangle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRectangle)).BeginInit();
             this.panel2.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPencil)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCursor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPalette)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScene)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBoxCircle
@@ -100,7 +106,7 @@
             // 
             this.buttonOpen.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonOpen.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonOpen.Location = new System.Drawing.Point(1150, 12);
+            this.buttonOpen.Location = new System.Drawing.Point(1163, 12);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(88, 36);
             this.buttonOpen.TabIndex = 5;
@@ -112,6 +118,8 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel2.Controls.Add(this.buttonSave);
+            this.panel2.Controls.Add(this.buttonImage);
             this.panel2.Controls.Add(this.buttonColor);
             this.panel2.Controls.Add(this.buttonClear);
             this.panel2.Controls.Add(this.buttonBaclgroundColor);
@@ -122,6 +130,32 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1268, 113);
             this.panel2.TabIndex = 8;
+            // 
+            // buttonSave
+            // 
+            this.buttonSave.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonSave.Location = new System.Drawing.Point(1069, 12);
+            this.buttonSave.Name = "buttonSave";
+            this.buttonSave.Size = new System.Drawing.Size(88, 36);
+            this.buttonSave.TabIndex = 17;
+            this.buttonSave.Text = "Save";
+            this.buttonSave.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.buttonSave.UseVisualStyleBackColor = true;
+            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            // 
+            // buttonImage
+            // 
+            this.buttonImage.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonImage.Location = new System.Drawing.Point(1069, 65);
+            this.buttonImage.Name = "buttonImage";
+            this.buttonImage.Size = new System.Drawing.Size(88, 36);
+            this.buttonImage.TabIndex = 16;
+            this.buttonImage.Text = "Image";
+            this.buttonImage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.buttonImage.UseVisualStyleBackColor = true;
+            this.buttonImage.Click += new System.EventHandler(this.buttonImage_Click);
             // 
             // buttonColor
             // 
@@ -141,7 +175,7 @@
             // 
             this.buttonClear.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonClear.Location = new System.Drawing.Point(1150, 65);
+            this.buttonClear.Location = new System.Drawing.Point(1163, 65);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(88, 36);
             this.buttonClear.TabIndex = 14;
@@ -156,7 +190,7 @@
             this.buttonBaclgroundColor.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonBaclgroundColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonBaclgroundColor.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.buttonBaclgroundColor.Location = new System.Drawing.Point(403, 32);
+            this.buttonBaclgroundColor.Location = new System.Drawing.Point(447, 32);
             this.buttonBaclgroundColor.Name = "buttonBaclgroundColor";
             this.buttonBaclgroundColor.Size = new System.Drawing.Size(50, 50);
             this.buttonBaclgroundColor.TabIndex = 13;
@@ -167,21 +201,34 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
+            this.panel1.Controls.Add(this.pictureBoxPencil);
             this.panel1.Controls.Add(this.pictureBoxCursor);
             this.panel1.Controls.Add(this.pictureBoxRectangle);
             this.panel1.Controls.Add(this.pictureBoxCircle);
             this.panel1.Controls.Add(this.pictureBoxStraightLine);
             this.panel1.Controls.Add(this.pictureBoxTriangle);
-            this.panel1.Location = new System.Drawing.Point(708, 12);
+            this.panel1.Location = new System.Drawing.Point(503, 12);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(407, 89);
+            this.panel1.Size = new System.Drawing.Size(488, 89);
             this.panel1.TabIndex = 11;
+            // 
+            // pictureBoxPencil
+            // 
+            this.pictureBoxPencil.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxPencil.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.pictureBoxPencil.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxPencil.Image")));
+            this.pictureBoxPencil.Location = new System.Drawing.Point(327, 9);
+            this.pictureBoxPencil.Name = "pictureBoxPencil";
+            this.pictureBoxPencil.Size = new System.Drawing.Size(75, 75);
+            this.pictureBoxPencil.TabIndex = 8;
+            this.pictureBoxPencil.TabStop = false;
+            this.pictureBoxPencil.Click += new System.EventHandler(this.pictureBoxPencil_Click);
             // 
             // pictureBoxCursor
             // 
             this.pictureBoxCursor.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBoxCursor.Image = ((System.Drawing.Image)(resources.GetObject("pictureBoxCursor.Image")));
-            this.pictureBoxCursor.Location = new System.Drawing.Point(327, 9);
+            this.pictureBoxCursor.Location = new System.Drawing.Point(408, 9);
             this.pictureBoxCursor.Name = "pictureBoxCursor";
             this.pictureBoxCursor.Size = new System.Drawing.Size(75, 75);
             this.pictureBoxCursor.TabIndex = 7;
@@ -200,6 +247,19 @@
             this.pictureBoxPalette.TabStop = false;
             this.pictureBoxPalette.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBoxPalette_MouseClick);
             // 
+            // pictureBoxScene
+            // 
+            this.pictureBoxScene.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBoxScene.Location = new System.Drawing.Point(1, 0);
+            this.pictureBoxScene.Name = "pictureBoxScene";
+            this.pictureBoxScene.Size = new System.Drawing.Size(1268, 766);
+            this.pictureBoxScene.TabIndex = 9;
+            this.pictureBoxScene.TabStop = false;
+            this.pictureBoxScene.DoubleClick += new System.EventHandler(this.pictureBoxScene_DoubleClick);
+            this.pictureBoxScene.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScene_MouseDown);
+            this.pictureBoxScene.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScene_MouseMove);
+            this.pictureBoxScene.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScene_MouseUp);
+            // 
             // FormScene
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -207,26 +267,24 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1264, 761);
             this.Controls.Add(this.panel2);
+            this.Controls.Add(this.pictureBoxScene);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "FormScene";
             this.Text = "Paint bruh (vektorna grafika edition)";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormScene_FormClosing);
-            this.DoubleClick += new System.EventHandler(this.FormScene_DoubleClick);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseUp);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCircle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStraightLine)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTriangle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRectangle)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPencil)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCursor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPalette)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScene)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -245,6 +303,10 @@
         private System.Windows.Forms.PictureBox pictureBoxCursor;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonColor;
+        private System.Windows.Forms.PictureBox pictureBoxScene;
+        private System.Windows.Forms.PictureBox pictureBoxPencil;
+        private System.Windows.Forms.Button buttonImage;
+        private System.Windows.Forms.Button buttonSave;
     }
 }
 
