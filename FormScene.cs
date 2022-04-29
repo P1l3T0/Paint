@@ -6,20 +6,20 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
+using System.Drawing.Imaging;
 using PaintBruhLibrary;
 
 using Rectangle = PaintBruhLibrary.Rectangle;
 using Ellipse = PaintBruhLibrary.Ellipse;
 using Triangle = PaintBruhLibrary.Triangle;
 using StraightLine = PaintBruhLibrary.StraightLine;
-using System.Drawing.Imaging;
 
 namespace Paint_bruh
 {
     public partial class FormScene : Form, IGraphics
     { 
         public static int lineIndex; //indeksa na horizontalna/vertikalna/2Point liniq 🐣
-        public static bool moveA, moveB, moveC; //murdane ne triugulnik 
+        public static bool moveA, moveB, moveC; //murdane ne triugulnik, raboti po mnogo inovativen i ynikalen nachin ;) 
 
         int buttonIndex; //indeksa na daden byton za figyra
         bool shapeMove; //dali se murda figyra
@@ -33,13 +33,13 @@ namespace Paint_bruh
         StraightLine frameStraightLine;
 
         Point mouseDownLocation; //lokaciqta na mishkata v realno vreme
-        Color newColor; //cvqt za ramkite
+        public static Color newColor; //cvqt za ramkite i moliva
 
-        Graphics onPaintGraphics; //grafichen obekt, s koito prechertavam
+        Graphics onPaintGraphics; //grafichen obekt, s koito prechertavam figyrite
 
-        Bitmap bitmap; //bitmap za razmerite na programata
-        Graphics graphics; 
-        bool paint; //da proverqva dali zadurjam mishakta
+        Bitmap bitmap; //bitmap koito mi trqbva za razmerite na kartinite
+        Graphics graphics; //grafichen obekt za izchertavane na liniq kato moliv (trqbva mi i ne moga da polzvam onPaintGraphis) :(
+        bool canDraw; //da proverqva dali zadurjam mishakta
 
         public FormScene()
         {
@@ -48,63 +48,6 @@ namespace Paint_bruh
             Buttons();
             BitmapImage();
             FixDialogBox();
-        }
-
-        public void DrawRectangle(Color colorBorder, Color colorFill, int x, int y, int width, int height)
-        {
-            if (onPaintGraphics != null)
-            {
-                using (var brush = new SolidBrush(colorFill))
-                    onPaintGraphics.FillRectangle(brush, x, y, width, height);
-
-                using (var pen = new Pen(colorBorder, 3))
-                    onPaintGraphics.DrawRectangle(pen, x, y, width, height);
-            }
-        } //metodi ot IGraphics za izchertavane na figyrite
-
-        public void DrawEllipse(Color colorBorder, Color colorFill, int x, int y, int radius1, int radius2)
-        {
-            if (onPaintGraphics != null)
-            {
-                using (var brush = new SolidBrush(colorFill))
-                    onPaintGraphics.FillEllipse(brush, x, y, radius1, radius2);
-
-                using (var pen = new Pen(colorBorder, 3))
-                    onPaintGraphics.DrawEllipse(pen, x, y, radius1, radius2);
-            }
-        }
-
-        public void DrawTriangle(Color colorBorder, Color colorFill, Point a, Point b, Point c)
-        {
-            Point[] points = new Point[] { a, b, c };
-
-            if (onPaintGraphics != null)
-            {
-                using (var brush = new SolidBrush(colorFill))
-                    onPaintGraphics.FillPolygon(brush, points); //ne se zapulva vse oshte a ne znam zashto (shte go opravq po natatuka)
-
-                using (var pen = new Pen(colorBorder, 3))
-                {
-                    onPaintGraphics.DrawLine(pen, a, b);
-                    onPaintGraphics.DrawLine(pen, a, c);
-                    onPaintGraphics.DrawLine(pen, b, c);
-                }
-            }
-        }
-
-        public void DrawStraightLine(Color colorBorder, Color colorFill, int x, int y, int width, int height, Point firstPoint, Point lastPoint)
-        {
-            if (onPaintGraphics != null)
-            {
-                using (var brush = new SolidBrush(colorFill))
-                    onPaintGraphics.FillRectangle(brush, x, y, width, height);
-
-                using (var pen = new Pen(colorBorder, 2))
-                    onPaintGraphics.DrawRectangle(pen, x, y, width, height);
-
-                using (var pen = new Pen(colorBorder, 2))
-                    onPaintGraphics.DrawLine(pen, firstPoint, lastPoint); //pravi prava liniq s nachalna i kraina tochka
-            }
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -128,7 +71,7 @@ namespace Paint_bruh
         {
             if (e.Button == MouseButtons.Right) //klikash s mishkata i zapochvash da izchertavash ramkata na selektiranata figyra
             {
-                paint = true;
+                canDraw = true;
                 mouseDownLocation = e.Location;
 
                 switch (buttonIndex)
@@ -137,28 +80,30 @@ namespace Paint_bruh
                         return;
 
                     case 1:
-                        frameRectangle = new Rectangle { colorBorder = newColor };
+                        frameRectangle = new Rectangle(newColor) { colorBorder = newColor };
                         break;
 
                     case 2:
-                        frameEllipse = new Ellipse { colorBorder = newColor };
+                        frameEllipse = new Ellipse(newColor) { colorBorder = newColor };
                         break;
 
                     case 3:
-                        frameTriangle = new Triangle { colorBorder = newColor };
+                        frameTriangle = new Triangle(newColor) { colorBorder = newColor };
                         break;
 
                     case 4:
-                        frameStraightLine = new StraightLine { colorBorder = newColor };
+                        frameStraightLine = new StraightLine(newColor) { colorBorder = newColor };
                         break;
                 }
             }
             else
             {
-                for (int s = 0; s < shapes.Count(); s++) //figyrata se deselktira sled kato kliknesh izvun neq
-                    shapes[s].isSelected = false;
+                var unselectShapes = shapes
+                                        .Take(shapes.Count())
+                                        .ToList();
+                unselectShapes.ForEach(s => s.isSelected = false); //figyrata se deselktira sled kato kliknesh izvun neq
 
-                for (int s = shapes.Count() - 1; s >= 0; s--) //figyrata se selektira sled kato q kliknesh
+                for (int s = shapes.Count() - 1; s >= 0; s--)
                     if (shapes[s].PointInShape(e.Location))
                     {
                         shapes[s].isSelected = true;
@@ -172,7 +117,7 @@ namespace Paint_bruh
             switch (buttonIndex)
             {
                 case 5:
-                    if (paint)
+                    if (canDraw)
                     {
                         Point pointX = e.Location;
                         graphics.DrawLine(new Pen(newColor, 2), pointX, mouseDownLocation);
@@ -296,7 +241,7 @@ namespace Paint_bruh
 
         private void pictureBoxScene_MouseUp(object sender, MouseEventArgs e)
         {
-            paint = false;
+            canDraw = false;
 
             if (shapeMove)
                 shapeMove = false; //resetva shape move sled kato se otpusne mishkata
@@ -308,8 +253,10 @@ namespace Paint_bruh
                 frameRectangle.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                 frameRectangle.colorFill = Color.FromArgb(150, frameRectangle.colorBorder);
 
-                for (int s = 0; s < shapes.Count(); s++)
-                    shapes[s].isSelected = false;
+                var selecteShapes = shapes
+                                        .Take(shapes.Count())
+                                        .ToList();
+                selecteShapes.ForEach(x => x.isSelected = false);
 
                 shapes.Add(frameRectangle);
                 frameRectangle.isSelected = true;
@@ -321,8 +268,10 @@ namespace Paint_bruh
                 frameEllipse.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                 frameEllipse.colorFill = Color.FromArgb(150, frameEllipse.colorBorder);
 
-                for (int s = 0; s < shapes.Count(); s++)
-                    shapes[s].isSelected = false;
+                var selecteShapes = shapes
+                                        .Take(shapes.Count())
+                                        .ToList();
+                selecteShapes.ForEach(x => x.isSelected = false);
 
                 shapes.Add(frameEllipse);
                 frameEllipse.isSelected = true;
@@ -334,8 +283,10 @@ namespace Paint_bruh
                 frameTriangle.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                 frameTriangle.colorFill = Color.FromArgb(150, frameTriangle.colorBorder);
 
-                for (int s = 0; s < shapes.Count(); s++)
-                    shapes[s].isSelected = false;
+                var selecteShapes = shapes
+                                        .Take(shapes.Count())
+                                        .ToList();
+                selecteShapes.ForEach(x => x.isSelected = false);
 
                 shapes.Add(frameTriangle);
                 triangles.Add(frameTriangle);
@@ -348,8 +299,10 @@ namespace Paint_bruh
                 frameStraightLine.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                 frameStraightLine.colorFill = Color.FromArgb(150, frameStraightLine.colorBorder);
 
-                for (int s = 0; s < shapes.Count(); s++)
-                    shapes[s].isSelected = false;
+                var selecteShapes = shapes
+                                        .Take(shapes.Count())
+                                        .ToList();
+                selecteShapes.ForEach(x => x.isSelected = false);
 
                 shapes.Add(frameStraightLine);
                 frameStraightLine.isSelected = true;
@@ -395,37 +348,28 @@ namespace Paint_bruh
             pictureBoxScene.Image = bitmap;
         }
 
-        private void pictureBoxScene_DoubleClick(object sender, EventArgs e)
+        private void SelectShapes(IEnumerable<Shape> shapes)
         {
             foreach (var shape in shapes)
-                if (shape.isSelected)
-                    switch (shape.shapeNumber)
-                    {
-                        case 1:
-                            var fr = new FormRecangle();
-                            fr.rectangle = (Rectangle)shape;
-                            fr.ShowDialog();
-                            break;
+                shape.isSelected = true;
 
-                        case 2:
-                            var fe = new FormEllipse();
-                            fe.ellipse = (Ellipse)shape;
-                            fe.ShowDialog();
-                            break;
-
-                        case 3:
-                            var ft = new FormTriangle();
-                            ft.triangle = (Triangle)shape;
-                            ft.ShowDialog();
-                            break;
-
-                        case 4:
-                            var fsl = new FormStraightLine();
-                            fsl.straightLine = (StraightLine)shape;
-                            fsl.ShowDialog();
-                            break;
-                    }
             Invalidate();
+        }
+
+        private void buttonLeft_Click(object sender, EventArgs e)
+        {
+            var centerX = Width / 2;
+            var leftShapes = shapes.Where(s => s.location.X <= centerX);
+
+            SelectShapes(leftShapes);
+        }
+
+        private void buttonRight_Click(object sender, EventArgs e)
+        {
+            var centerX = Width / 2;
+            var rightShapes = shapes.Where(s => s.location.X >= centerX);
+
+            SelectShapes(rightShapes);
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e) //delete byton
@@ -467,12 +411,11 @@ namespace Paint_bruh
         private void buttonClear_Click(object sender, EventArgs e) //chisti vsi4ki figyri
         {
             for (int i = shapes.Count() - 1; i >= 0; i--)
-                shapes.RemoveAt(i);
+                if (shapes[i].isSelected)
+                    shapes.RemoveAt(i);
 
-            //pictureBoxScene.BackColor = Color.Transparent;
             graphics.Clear(Color.Transparent);
             buttonBaclgroundColor.BackColor = Color.White;
-            this.BackColor = Color.White;
         }
 
         private void buttonImage_Click(object sender, EventArgs e) //zapazva kato snimka
@@ -524,6 +467,39 @@ namespace Paint_bruh
             return new Point((int)(point.X * pointX), (int)(point.Y * pointY));
         } //nujno e za paletite na cvetovete
 
+        private void pictureBoxScene_DoubleClick(object sender, EventArgs e)
+        {
+            foreach (var shape in shapes)
+                if (shape.isSelected)
+                    switch (shape.shapeNumber)
+                    {
+                        case 1:
+                            var fr = new FormRecangle();
+                            fr.rectangle = (Rectangle)shape;
+                            fr.ShowDialog();
+                            break;
+
+                        case 2:
+                            var fe = new FormEllipse();
+                            fe.ellipse = (Ellipse)shape;
+                            fe.ShowDialog();
+                            break;
+
+                        case 3:
+                            var ft = new FormTriangle();
+                            ft.triangle = (Triangle)shape;
+                            ft.ShowDialog();
+                            break;
+
+                        case 4:
+                            var fsl = new FormStraightLine();
+                            fsl.straightLine = (StraightLine)shape;
+                            fsl.ShowDialog();
+                            break;
+                    }
+            Invalidate();
+        }
+
         private void pictureBoxPalette_MouseClick(object sender, MouseEventArgs e) //vzema pikselite na picture boks-a i zadava cveta im kum newColor
         {
             Point point = SetPoint(pictureBoxPalette, e.Location);
@@ -563,6 +539,63 @@ namespace Paint_bruh
         private void pictureBoxCursor_Click(object sender, EventArgs e)
         {
             buttonIndex = 6;
+        }
+
+        public void DrawRectangle(Color colorBorder, Color colorFill, int x, int y, int width, int height)
+        {
+            if (onPaintGraphics != null)
+            {
+                using (var brush = new SolidBrush(colorFill))
+                    onPaintGraphics.FillRectangle(brush, x, y, width, height);
+
+                using (var pen = new Pen(colorBorder, 3))
+                    onPaintGraphics.DrawRectangle(pen, x, y, width, height);
+            }
+        } //metodi ot IGraphics za izchertavane na figyrite
+
+        public void DrawEllipse(Color colorBorder, Color colorFill, int x, int y, int radius1, int radius2)
+        {
+            if (onPaintGraphics != null)
+            {
+                using (var brush = new SolidBrush(colorFill))
+                    onPaintGraphics.FillEllipse(brush, x, y, radius1, radius2);
+
+                using (var pen = new Pen(colorBorder, 3))
+                    onPaintGraphics.DrawEllipse(pen, x, y, radius1, radius2);
+            }
+        }
+
+        public void DrawTriangle(Color colorBorder, Color colorFill, Point a, Point b, Point c)
+        {
+            Point[] points = new Point[] { a, b, c };
+
+            if (onPaintGraphics != null)
+            {
+                using (var brush = new SolidBrush(colorFill))
+                    onPaintGraphics.FillPolygon(brush, points); //ne se zapulva vse oshte a ne znam zashto (shte go opravq po natatuka)
+
+                using (var pen = new Pen(colorBorder, 3))
+                {
+                    onPaintGraphics.DrawLine(pen, a, b);
+                    onPaintGraphics.DrawLine(pen, a, c);
+                    onPaintGraphics.DrawLine(pen, b, c);
+                }
+            }
+        }
+
+        public void DrawStraightLine(Color colorBorder, Color colorFill, int x, int y, int width, int height, Point firstPoint, Point lastPoint)
+        {
+            if (onPaintGraphics != null)
+            {
+                using (var brush = new SolidBrush(colorFill))
+                    onPaintGraphics.FillRectangle(brush, x, y, width, height);
+
+                using (var pen = new Pen(colorBorder, 2))
+                    onPaintGraphics.DrawRectangle(pen, x, y, width, height);
+
+                using (var pen = new Pen(colorBorder, 2))
+                    onPaintGraphics.DrawLine(pen, firstPoint, lastPoint); //pravi prava liniq s nachalna i kraina tochka
+            }
         }
     }
 }

@@ -45,6 +45,8 @@
             this.pictureBoxCursor = new System.Windows.Forms.PictureBox();
             this.pictureBoxPalette = new System.Windows.Forms.PictureBox();
             this.pictureBoxScene = new System.Windows.Forms.PictureBox();
+            this.buttonLeft = new System.Windows.Forms.Button();
+            this.buttonRight = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCircle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStraightLine)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTriangle)).BeginInit();
@@ -106,7 +108,7 @@
             // 
             this.buttonOpen.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonOpen.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonOpen.Location = new System.Drawing.Point(1163, 12);
+            this.buttonOpen.Location = new System.Drawing.Point(1163, 18);
             this.buttonOpen.Name = "buttonOpen";
             this.buttonOpen.Size = new System.Drawing.Size(88, 36);
             this.buttonOpen.TabIndex = 5;
@@ -118,6 +120,8 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.panel2.Controls.Add(this.buttonRight);
+            this.panel2.Controls.Add(this.buttonLeft);
             this.panel2.Controls.Add(this.buttonSave);
             this.panel2.Controls.Add(this.buttonImage);
             this.panel2.Controls.Add(this.buttonColor);
@@ -135,7 +139,7 @@
             // 
             this.buttonSave.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonSave.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSave.Location = new System.Drawing.Point(1069, 12);
+            this.buttonSave.Location = new System.Drawing.Point(1069, 18);
             this.buttonSave.Name = "buttonSave";
             this.buttonSave.Size = new System.Drawing.Size(88, 36);
             this.buttonSave.TabIndex = 17;
@@ -148,7 +152,7 @@
             // 
             this.buttonImage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonImage.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonImage.Location = new System.Drawing.Point(1069, 65);
+            this.buttonImage.Location = new System.Drawing.Point(1069, 60);
             this.buttonImage.Name = "buttonImage";
             this.buttonImage.Size = new System.Drawing.Size(88, 36);
             this.buttonImage.TabIndex = 16;
@@ -175,7 +179,7 @@
             // 
             this.buttonClear.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonClear.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonClear.Location = new System.Drawing.Point(1163, 65);
+            this.buttonClear.Location = new System.Drawing.Point(1163, 60);
             this.buttonClear.Name = "buttonClear";
             this.buttonClear.Size = new System.Drawing.Size(88, 36);
             this.buttonClear.TabIndex = 14;
@@ -190,7 +194,7 @@
             this.buttonBaclgroundColor.Cursor = System.Windows.Forms.Cursors.Hand;
             this.buttonBaclgroundColor.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.buttonBaclgroundColor.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.buttonBaclgroundColor.Location = new System.Drawing.Point(504, 32);
+            this.buttonBaclgroundColor.Location = new System.Drawing.Point(410, 32);
             this.buttonBaclgroundColor.Name = "buttonBaclgroundColor";
             this.buttonBaclgroundColor.Size = new System.Drawing.Size(50, 50);
             this.buttonBaclgroundColor.TabIndex = 13;
@@ -207,7 +211,7 @@
             this.panel1.Controls.Add(this.pictureBoxCircle);
             this.panel1.Controls.Add(this.pictureBoxStraightLine);
             this.panel1.Controls.Add(this.pictureBoxTriangle);
-            this.panel1.Location = new System.Drawing.Point(560, 12);
+            this.panel1.Location = new System.Drawing.Point(466, 12);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(488, 89);
             this.panel1.TabIndex = 11;
@@ -260,6 +264,32 @@
             this.pictureBoxScene.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScene_MouseMove);
             this.pictureBoxScene.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScene_MouseUp);
             // 
+            // buttonLeft
+            // 
+            this.buttonLeft.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonLeft.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonLeft.Location = new System.Drawing.Point(975, 18);
+            this.buttonLeft.Name = "buttonLeft";
+            this.buttonLeft.Size = new System.Drawing.Size(88, 36);
+            this.buttonLeft.TabIndex = 21;
+            this.buttonLeft.Text = "Left";
+            this.buttonLeft.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.buttonLeft.UseVisualStyleBackColor = true;
+            this.buttonLeft.Click += new System.EventHandler(this.buttonLeft_Click);
+            // 
+            // buttonRight
+            // 
+            this.buttonRight.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.buttonRight.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonRight.Location = new System.Drawing.Point(975, 60);
+            this.buttonRight.Name = "buttonRight";
+            this.buttonRight.Size = new System.Drawing.Size(88, 36);
+            this.buttonRight.TabIndex = 22;
+            this.buttonRight.Text = "Right";
+            this.buttonRight.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.buttonRight.UseVisualStyleBackColor = true;
+            this.buttonRight.Click += new System.EventHandler(this.buttonRight_Click);
+            // 
             // FormScene
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -307,6 +337,8 @@
         private System.Windows.Forms.PictureBox pictureBoxPencil;
         private System.Windows.Forms.Button buttonImage;
         private System.Windows.Forms.Button buttonSave;
+        private System.Windows.Forms.Button buttonRight;
+        private System.Windows.Forms.Button buttonLeft;
     }
 }
 
