@@ -99,8 +99,8 @@ namespace Paint_bruh
             else
             {
                 var unselectShapes = shapes
-                                        .Take(shapes.Count())
-                                        .ToList();
+                                    .Take(shapes.Count())
+                                    .ToList();
                 unselectShapes.ForEach(s => s.isSelected = false); //figyrata se deselktira sled kato kliknesh izvun neq
 
                 for (int s = shapes.Count() - 1; s >= 0; s--)
@@ -254,8 +254,8 @@ namespace Paint_bruh
                 frameRectangle.colorFill = Color.FromArgb(150, frameRectangle.colorBorder);
 
                 var selecteShapes = shapes
-                                        .Take(shapes.Count())
-                                        .ToList();
+                                    .Take(shapes.Count())
+                                    .ToList();
                 selecteShapes.ForEach(x => x.isSelected = false);
 
                 shapes.Add(frameRectangle);
@@ -269,8 +269,8 @@ namespace Paint_bruh
                 frameEllipse.colorFill = Color.FromArgb(150, frameEllipse.colorBorder);
 
                 var selecteShapes = shapes
-                                        .Take(shapes.Count())
-                                        .ToList();
+                                    .Take(shapes.Count())
+                                    .ToList();
                 selecteShapes.ForEach(x => x.isSelected = false);
 
                 shapes.Add(frameEllipse);
@@ -284,8 +284,8 @@ namespace Paint_bruh
                 frameTriangle.colorFill = Color.FromArgb(150, frameTriangle.colorBorder);
 
                 var selecteShapes = shapes
-                                        .Take(shapes.Count())
-                                        .ToList();
+                                    .Take(shapes.Count())
+                                    .ToList();
                 selecteShapes.ForEach(x => x.isSelected = false);
 
                 shapes.Add(frameTriangle);
@@ -300,8 +300,8 @@ namespace Paint_bruh
                 frameStraightLine.colorFill = Color.FromArgb(150, frameStraightLine.colorBorder);
 
                 var selecteShapes = shapes
-                                        .Take(shapes.Count())
-                                        .ToList();
+                                    .Take(shapes.Count())
+                                    .ToList();
                 selecteShapes.ForEach(x => x.isSelected = false);
 
                 shapes.Add(frameStraightLine);
@@ -356,6 +356,44 @@ namespace Paint_bruh
             Invalidate();
         }
 
+        private void FormScene_KeyDown(object sender, KeyEventArgs e) //delete byton
+        {
+            if (e.KeyCode == Keys.Delete)
+                for (int s = shapes.Count() - 1; s >= 0; s--)
+                    if (shapes[s].isSelected)
+                        shapes.RemoveAt(s); 
+
+            Invalidate();
+        }
+
+        //bytoni
+
+        private void buttonColor_Click(object sender, EventArgs e) //smenq cveta newColor)
+        {
+            ColorDialog colorDialog = new ColorDialog();
+
+            colorDialog.ShowDialog();
+            newColor = colorDialog.Color;
+
+            buttonColor.BackColor = newColor;
+        }
+
+        private void buttonBGColor_Click(object sender, EventArgs e) //smenq background cveta
+        {
+            var bgColor = new ColorDialog();
+
+            if (bgColor.ShowDialog() == DialogResult.OK)
+            {
+                this.BackColor = bgColor.Color;
+                buttonBGColor.BackColor = bgColor.Color;
+            }
+
+            if (bgColor.Color == Color.Black)
+                buttonBGColor.ForeColor = Color.White;
+            else
+                buttonBGColor.ForeColor = Color.Black;
+        }
+
         private void buttonLeft_Click(object sender, EventArgs e)
         {
             var centerX = Width / 2;
@@ -372,42 +410,6 @@ namespace Paint_bruh
             SelectShapes(rightShapes);
         }
 
-        private void Form1_KeyDown(object sender, KeyEventArgs e) //delete byton
-        {
-            if (e.KeyCode == Keys.Delete)
-                for (int s = shapes.Count() - 1; s >= 0; s--)
-                    if (shapes[s].isSelected)
-                        shapes.RemoveAt(s); 
-
-            Invalidate();
-        }
-
-        private void buttonColor_Click(object sender, EventArgs e) //smenq cveta newColor)
-        {
-            ColorDialog colorDialog = new ColorDialog();
-
-            colorDialog.ShowDialog();
-            newColor = colorDialog.Color;
-
-            buttonColor.BackColor = newColor;
-        }
-
-        private void buttonBackgroundColor_Click(object sender, EventArgs e) //smenq background cveta
-        {
-            var bgColor = new ColorDialog();
-
-            if (bgColor.ShowDialog() == DialogResult.OK)
-            {
-                this.BackColor = bgColor.Color;
-                buttonBaclgroundColor.BackColor = bgColor.Color;
-            }
-
-            if (bgColor.Color == Color.Black)
-                buttonBaclgroundColor.ForeColor = Color.White;
-            else
-                buttonBaclgroundColor.ForeColor = Color.Black;
-        }
-
         private void buttonClear_Click(object sender, EventArgs e) //chisti vsi4ki figyri
         {
             for (int i = shapes.Count() - 1; i >= 0; i--)
@@ -415,33 +417,36 @@ namespace Paint_bruh
                     shapes.RemoveAt(i);
 
             graphics.Clear(Color.Transparent);
-            buttonBaclgroundColor.BackColor = Color.White;
         }
 
         private void buttonImage_Click(object sender, EventArgs e) //zapazva kato snimka
         {
             var sfd = new SaveFileDialog();
-
-            sfd.Filter = "Image(*.png) | *.png | (*.*|*.*";
+            sfd.Filter = "Image(*.joeg) | *.jpeg | (*.*|*.*";
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {
-                Bitmap btm = bitmap.Clone(new System.Drawing.Rectangle(0, 0, pictureBoxScene.Width, pictureBoxScene.Height), bitmap.PixelFormat);
-                btm.Save(sfd.FileName, ImageFormat.Png);
-                MessageBox.Show("Image saved!");
+                using (var bmp = new Bitmap(pictureBoxScene.Width, pictureBoxScene.Height))
+                {
+                    pictureBoxScene.DrawToBitmap(bmp, new System.Drawing.Rectangle(0, 0, pictureBoxScene.Width, pictureBoxScene.Height));
+                    bmp.Save(sfd.FileName);
+                }
             }
         }
 
         private void buttonSave_Click(object sender, EventArgs e) //zapazva dannite na figyrite
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            SaveFileDialog sfd = new SaveFileDialog();
 
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            if (sfd.ShowDialog() == DialogResult.OK)
             {
                 IFormatter formatter = new BinaryFormatter();
 
-                using (var fileStream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                using (var fileStream = new FileStream(sfd.FileName, FileMode.Create))
+                {
                     formatter.Serialize(fileStream, shapes);
+                    formatter.Serialize(fileStream, this.BackColor);
+                }
             }
         }
 
@@ -454,7 +459,11 @@ namespace Paint_bruh
                 IFormatter formatter = new BinaryFormatter();
 
                 using (var fileStream = new FileStream(openFileDialog.FileName, FileMode.Open))
+                {
                     shapes = (List<Shape>)formatter.Deserialize(fileStream); //prochita zapisanite figyri
+                    this.BackColor = (Color)formatter.Deserialize(fileStream);
+                    buttonBGColor.BackColor = this.BackColor;
+                }
                 Invalidate();
             }
         } //otvarq bitovite danni na vechezapisani figyri
@@ -466,6 +475,8 @@ namespace Paint_bruh
 
             return new Point((int)(point.X * pointX), (int)(point.Y * pointY));
         } //nujno e za paletite na cvetovete
+
+        //picturebox
 
         private void pictureBoxScene_DoubleClick(object sender, EventArgs e)
         {
@@ -541,6 +552,8 @@ namespace Paint_bruh
             buttonIndex = 6;
         }
 
+        //fynkcii za nachertavane ot bibliotekata
+
         public void DrawRectangle(Color colorBorder, Color colorFill, int x, int y, int width, int height)
         {
             if (onPaintGraphics != null)
@@ -565,6 +578,21 @@ namespace Paint_bruh
             }
         }
 
+        public void DrawStraightLine(Color colorBorder, Color colorFill, int x, int y, int width, int height, Point firstPoint, Point lastPoint)
+        {
+            if (onPaintGraphics != null)
+            {
+                using (var brush = new SolidBrush(colorFill))
+                    onPaintGraphics.FillRectangle(brush, x, y, width, height);
+
+                using (var pen = new Pen(colorBorder, 2))
+                    onPaintGraphics.DrawRectangle(pen, x, y, width, height);
+
+                using (var pen = new Pen(colorBorder, 2))
+                    onPaintGraphics.DrawLine(pen, firstPoint, lastPoint); //pravi prava liniq s nachalna i kraina tochka
+            }
+        }
+
         public void DrawTriangle(Color colorBorder, Color colorFill, Point a, Point b, Point c)
         {
             Point[] points = new Point[] { a, b, c };
@@ -580,21 +608,6 @@ namespace Paint_bruh
                     onPaintGraphics.DrawLine(pen, a, c);
                     onPaintGraphics.DrawLine(pen, b, c);
                 }
-            }
-        }
-
-        public void DrawStraightLine(Color colorBorder, Color colorFill, int x, int y, int width, int height, Point firstPoint, Point lastPoint)
-        {
-            if (onPaintGraphics != null)
-            {
-                using (var brush = new SolidBrush(colorFill))
-                    onPaintGraphics.FillRectangle(brush, x, y, width, height);
-
-                using (var pen = new Pen(colorBorder, 2))
-                    onPaintGraphics.DrawRectangle(pen, x, y, width, height);
-
-                using (var pen = new Pen(colorBorder, 2))
-                    onPaintGraphics.DrawLine(pen, firstPoint, lastPoint); //pravi prava liniq s nachalna i kraina tochka
             }
         }
     }
