@@ -437,6 +437,7 @@ namespace Paint_bruh
         private void buttonSave_Click(object sender, EventArgs e) //zapazva dannite na figyrite
         {
             SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Data(*.data) | *.data | (*.*|*.*";
 
             if (sfd.ShowDialog() == DialogResult.OK)
             {

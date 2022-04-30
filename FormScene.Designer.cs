@@ -45,9 +45,9 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBoxPencil = new System.Windows.Forms.PictureBox();
             this.pictureBoxCursor = new System.Windows.Forms.PictureBox();
+            this.panelScreen = new System.Windows.Forms.Panel();
             this.pictureBoxPalette = new System.Windows.Forms.PictureBox();
             this.pictureBoxScene = new System.Windows.Forms.PictureBox();
-            this.panelScreen = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCircle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStraightLine)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTriangle)).BeginInit();
@@ -267,6 +267,14 @@
             this.pictureBoxCursor.TabStop = false;
             this.pictureBoxCursor.Click += new System.EventHandler(this.pictureBoxCursor_Click);
             // 
+            // panelScreen
+            // 
+            this.panelScreen.BackColor = System.Drawing.Color.White;
+            this.panelScreen.Location = new System.Drawing.Point(0, 107);
+            this.panelScreen.Name = "panelScreen";
+            this.panelScreen.Size = new System.Drawing.Size(1268, 659);
+            this.panelScreen.TabIndex = 10;
+            // 
             // pictureBoxPalette
             // 
             this.pictureBoxPalette.Cursor = System.Windows.Forms.Cursors.Hand;
@@ -291,14 +299,6 @@
             this.pictureBoxScene.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScene_MouseDown);
             this.pictureBoxScene.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScene_MouseMove);
             this.pictureBoxScene.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScene_MouseUp);
-            // 
-            // panelScreen
-            // 
-            this.panelScreen.BackColor = System.Drawing.Color.White;
-            this.panelScreen.Location = new System.Drawing.Point(0, 107);
-            this.panelScreen.Name = "panelScreen";
-            this.panelScreen.Size = new System.Drawing.Size(1268, 659);
-            this.panelScreen.TabIndex = 10;
             // 
             // FormScene
             // 
