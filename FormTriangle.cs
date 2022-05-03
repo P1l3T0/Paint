@@ -2,33 +2,28 @@
 using System.Windows.Forms;
 using PaintBruhLibrary;
 
-using Triangle = PaintBruhLibrary.Triangle;
-
 namespace Paint_bruh
 {
     public partial class FormTriangle : Form
     {
         private Triangle _triangle;
 
-        public Triangle triangle
+        public Triangle Triangle
         {
-            get
-            {
-                return _triangle;
-            }
+            get => _triangle;
+
             set
             {
                 _triangle = value;
 
-                textBoxA.Text = triangle.A.ToString();
-                textBoxB.Text = triangle.B.ToString();
-                textBoxC.Text = triangle.C.ToString();
+                textBoxA.Text = Triangle.A.ToString();
+                textBoxB.Text = Triangle.B.ToString();
+                textBoxC.Text = Triangle.C.ToString();
 
-                textBoxSide.Text = triangle.side.ToString();
+                textBoxSide.Text = Triangle.side.ToString();
+                textBoxArea.Text = Triangle.area.ToString();
 
-                textBoxArea.Text = triangle.area.ToString();
-
-                buttonColor.BackColor = triangle.colorFill;
+                buttonColor.BackColor = Triangle.colorFill;
             }
         }
         public FormTriangle()
@@ -40,8 +35,8 @@ namespace Paint_bruh
         {
             try
             {
-                triangle.side = int.Parse(textBoxSide.Text);
-                triangle.colorFill = buttonColor.BackColor;
+                Triangle.side = int.Parse(textBoxSide.Text);
+                Triangle.colorFill = buttonColor.BackColor;
             }
             catch
             {

@@ -2,20 +2,16 @@
 using System.Windows.Forms;
 using PaintBruhLibrary;
 
-using StraightLine = PaintBruhLibrary.StraightLine;
-
 namespace Paint_bruh
 {
     public partial class FormStraightLine : Form
     {
         private StraightLine _straightLine;
 
-        public StraightLine straightLine
+        public StraightLine StraightLine
         {
-            get
-            {
-                return _straightLine;
-            }
+            get => _straightLine;
+
             set
             {
                 _straightLine = value;
@@ -25,10 +21,9 @@ namespace Paint_bruh
 
                 textBoxWidth.Text = _straightLine.width.ToString();
                 textBoxHeight.Text = _straightLine.height.ToString();
-
-                buttonColor.BackColor = straightLine.colorFill;
-
                 textBoxArea.Text = _straightLine.area.ToString();
+
+                buttonColor.BackColor = StraightLine.colorFill;
             }
         }
 
@@ -39,7 +34,7 @@ namespace Paint_bruh
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            straightLine.colorBorder = buttonColor.BackColor;
+            StraightLine.colorBorder = buttonColor.BackColor;
             DialogResult = DialogResult.OK;
         }
 

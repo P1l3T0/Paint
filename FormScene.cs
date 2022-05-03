@@ -1,45 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
-using System.Drawing.Imaging;
 using PaintBruhLibrary;
-
-using Rectangle = PaintBruhLibrary.Rectangle;
-using Ellipse = PaintBruhLibrary.Ellipse;
-using Triangle = PaintBruhLibrary.Triangle;
-using StraightLine = PaintBruhLibrary.StraightLine;
 
 namespace Paint_bruh
 {
     public partial class FormScene : Form, IGraphics
     { 
-        public static int lineIndex; //indeksa na horizontalna/vertikalna/2Point liniq 🐣
-        public static bool moveA, moveB, moveC; //murdane ne triugulnik, raboti po mnogo inovativen i ynikalen nachin ;) 
-
-        int buttonIndex; //indeksa na daden byton za figyra
-        bool shapeMove; //dali se murda figyra
-
+        //listi figyri
         List<Shape> shapes = new List<Shape>(); //list of vsichki figyri
         List<Triangle> triangles = new List<Triangle>(); //list samo ot triugulnici (trqbva mi za da gi murdam, leko e zaburkano)
 
-        Rectangle frameRectangle; //ramki na figyrite
+        //ramki
+        Rectangles frameRectangle; 
         Ellipse frameEllipse;
         Triangle frameTriangle;
         StraightLine frameStraightLine;
 
-        Point mouseDownLocation; //lokaciqta na mishkata v realno vreme
+        //ne znam kakuv komentar da sloja tyk
+        Point mouseLocation; //lokaciqta na mishkata v realno vreme
         public static Color newColor; //cvqt za ramkite i moliva
 
         Graphics onPaintGraphics; //grafichen obekt, s koito prechertavam figyrite
 
+        //raboti za moliv/kartinka
+        Pen pen; //moliva
         Bitmap bitmap; //bitmap koito mi trqbva za razmerite na kartinite
         Graphics graphics; //grafichen obekt za izchertavane na liniq kato moliv (trqbva mi i ne moga da polzvam onPaintGraphis) :(
         bool canDraw; //da proverqva dali zadurjam mishakta
+
+        //chast ot informaciqta za figyri (nyjna mi e)
+        int buttonIndex; //indeksa na daden byton za figyra
+        bool isShapeMoving; //dali se murda figyra
+        public static int lineIndex; //indeksa na horizontalna/vertikalna/2Point liniq 🐣
+        public static bool moveA, moveB, moveC; //murdane ne triugulnik, raboti po mnogo inovativen i ynikalen nachin ;) 
 
         public FormScene()
         {
@@ -47,13 +47,12 @@ namespace Paint_bruh
 
             Buttons();
             BitmapImage();
-            FixDialogBox();
+            FixDialogBox();           
         }
 
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-
             onPaintGraphics = e.Graphics;
 
             foreach (var s in shapes)
@@ -69,10 +68,10 @@ namespace Paint_bruh
 
         private void pictureBoxScene_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right) //klikash s mishkata i zapochvash da izchertavash ramkata na selektiranata figyra
+            if (e.Button == MouseButtons.Right) //klikash s mishkata i suzdava ramkata na selektiranata figyra
             {
                 canDraw = true;
-                mouseDownLocation = e.Location;
+                mouseLocation = e.Location;
 
                 switch (buttonIndex)
                 {
@@ -80,7 +79,7 @@ namespace Paint_bruh
                         return;
 
                     case 1:
-                        frameRectangle = new Rectangle(newColor) { colorBorder = newColor };
+                        frameRectangle = new Rectangles(newColor) { colorBorder = newColor };
                         break;
 
                     case 2:
@@ -114,14 +113,20 @@ namespace Paint_bruh
 
         private void pictureBoxScene_MouseMove(object sender, MouseEventArgs e)
         {
+            pen = new Pen(newColor, 5)
+            {
+                StartCap = LineCap.Round,
+                EndCap = LineCap.Round
+            };
+
             switch (buttonIndex)
             {
                 case 5:
                     if (canDraw)
                     {
                         Point pointX = e.Location;
-                        graphics.DrawLine(new Pen(newColor, 2), pointX, mouseDownLocation);
-                        mouseDownLocation = pointX;
+                        graphics.DrawLine(pen, pointX, mouseLocation);
+                        mouseLocation = pointX;
                     }
                     break;
 
@@ -131,8 +136,8 @@ namespace Paint_bruh
                         for (int i = shapes.Count() - 1; i >= 0; i--) //murdane na figyrite s mishkata
                             if (shapes[i].isSelected)
                             {
+                                isShapeMoving = true;
                                 shapes[i].location = e.Location;
-                                shapeMove = true;
                             }
                             else shapes[i].isSelected = false;
 
@@ -154,45 +159,45 @@ namespace Paint_bruh
             {
                 frameRectangle.location = new Point
                 {
-                    X = Math.Min(mouseDownLocation.X, e.Location.X),
-                    Y = Math.Min(mouseDownLocation.Y, e.Location.Y),
+                    X = Math.Min(mouseLocation.X, e.Location.X),
+                    Y = Math.Min(mouseLocation.Y, e.Location.Y),
                 };
 
-                frameRectangle.width = Math.Abs(mouseDownLocation.X - e.Location.X);
-                frameRectangle.height = Math.Abs(mouseDownLocation.Y - e.Location.Y);
+                frameRectangle.width = Math.Abs(mouseLocation.X - e.Location.X);
+                frameRectangle.height = Math.Abs(mouseLocation.Y - e.Location.Y);
             }
 
             if (frameEllipse != null)
             {
                 frameEllipse.location = new Point
                 {
-                    X = Math.Min(mouseDownLocation.X, e.Location.X),
-                    Y = Math.Min(mouseDownLocation.Y, e.Location.Y)
+                    X = Math.Min(mouseLocation.X, e.Location.X),
+                    Y = Math.Min(mouseLocation.Y, e.Location.Y)
                 };
 
-                frameEllipse.radius1 = Math.Abs(mouseDownLocation.X - e.Location.X);
-                frameEllipse.radius2 = Math.Abs(mouseDownLocation.Y - e.Location.Y);
+                frameEllipse.radius1 = Math.Abs(mouseLocation.X - e.Location.X);
+                frameEllipse.radius2 = Math.Abs(mouseLocation.Y - e.Location.Y);
             }
 
             if (frameTriangle != null)
             {
                 frameTriangle.location = new Point
                 {
-                    X = Math.Min(mouseDownLocation.X, e.Location.X),
-                    Y = Math.Min(mouseDownLocation.Y, e.Location.Y)
+                    X = Math.Min(mouseLocation.X, e.Location.X),
+                    Y = Math.Min(mouseLocation.Y, e.Location.Y)
                 };
 
-                float mid = (mouseDownLocation.X + e.Location.X) / 2;
+                float mid = (mouseLocation.X + e.Location.X) / 2;
 
-                Point a = new Point(mouseDownLocation.X, mouseDownLocation.Y);
+                Point a = new Point(mouseLocation.X, mouseLocation.Y);
                 Point b = new Point((int)mid, e.Location.Y);
-                Point c = new Point(e.Location.X, mouseDownLocation.Y);
+                Point c = new Point(e.Location.X, mouseLocation.Y);
 
                 frameTriangle.A = a;
                 frameTriangle.B = b;
                 frameTriangle.C = c;
 
-                frameTriangle.side = Math.Abs(mouseDownLocation.X - e.Location.X) + Math.Abs(mouseDownLocation.Y - e.Location.Y);
+                frameTriangle.side = Math.Abs(mouseLocation.X - e.Location.X) + Math.Abs(mouseLocation.Y - e.Location.Y);
             }
 
             if (frameStraightLine != null)
@@ -203,33 +208,33 @@ namespace Paint_bruh
                     case 1:
                         frameStraightLine.location = new Point
                         {
-                            X = Math.Min(mouseDownLocation.X, e.Location.X),
-                            Y = Math.Min(mouseDownLocation.Y, mouseDownLocation.Y)
+                            X = Math.Min(mouseLocation.X, e.Location.X),
+                            Y = Math.Min(mouseLocation.Y, mouseLocation.Y)
                         };
 
-                        frameStraightLine.width = Math.Abs(mouseDownLocation.X - e.Location.X);
+                        frameStraightLine.width = Math.Abs(mouseLocation.X - e.Location.X);
                         frameStraightLine.height = 1;
                     break;
 
                     case 2:
                         frameStraightLine.location = new Point
                         {
-                            X = Math.Min(mouseDownLocation.X, mouseDownLocation.X),
-                            Y = Math.Min(mouseDownLocation.Y, e.Location.Y)
+                            X = Math.Min(mouseLocation.X, mouseLocation.X),
+                            Y = Math.Min(mouseLocation.Y, e.Location.Y)
                         };
 
                         frameStraightLine.width = 1;
-                        frameStraightLine.height = Math.Abs(mouseDownLocation.Y - e.Location.Y);
+                        frameStraightLine.height = Math.Abs(mouseLocation.Y - e.Location.Y);
                     break;
 
                     case 3:
                         frameStraightLine.location = new Point
                         {
-                            X = Math.Min(mouseDownLocation.X, e.Location.X),
-                            Y = Math.Min(mouseDownLocation.Y, e.Location.Y)
+                            X = Math.Min(mouseLocation.X, e.Location.X),
+                            Y = Math.Min(mouseLocation.Y, e.Location.Y)
                         };
 
-                        Point start = new Point(mouseDownLocation.X, mouseDownLocation.Y);
+                        Point start = new Point(mouseLocation.X, mouseLocation.Y);
                         Point end = new Point(e.Location.X, e.Location.Y);
 
                         frameStraightLine.firstPoint = start;
@@ -242,9 +247,8 @@ namespace Paint_bruh
         private void pictureBoxScene_MouseUp(object sender, MouseEventArgs e)
         {
             canDraw = false;
-
-            if (shapeMove)
-                shapeMove = false; //resetva shape move sled kato se otpusne mishkata
+            if (isShapeMoving)
+                isShapeMoving = false;
 
             var rng = new Random();
 
@@ -321,14 +325,15 @@ namespace Paint_bruh
 
         private void Buttons() //dobavq bytonite na figyrite v list i pravi gotin efekt kogato mishkata e vurhy tqh :)
         {
-            List<PictureBox> pictureBoxes = new List<PictureBox>();
-
-            pictureBoxes.Add(pictureBoxStraightLine);
-            pictureBoxes.Add(pictureBoxTriangle);
-            pictureBoxes.Add(pictureBoxCircle);
-            pictureBoxes.Add(pictureBoxRectangle);
-            pictureBoxes.Add(pictureBoxPencil);
-            pictureBoxes.Add(pictureBoxCursor);
+            List<PictureBox> pictureBoxes = new List<PictureBox>
+            {
+                pictureBoxStraightLine,
+                pictureBoxTriangle,
+                pictureBoxCircle,
+                pictureBoxRectangle,
+                pictureBoxPencil,
+                pictureBoxCursor
+            };
 
             foreach (var pictureBox in pictureBoxes)
             {
@@ -421,32 +426,36 @@ namespace Paint_bruh
 
         private void buttonImage_Click(object sender, EventArgs e) //zapazva kato snimka
         {
-            var sfd = new SaveFileDialog();
-            sfd.Filter = "Image(*.joeg) | *.jpeg | (*.*|*.*";
-
-            if (sfd.ShowDialog() == DialogResult.OK)
+            using (SaveFileDialog sfd = new SaveFileDialog())
             {
-                using (var bmp = new Bitmap(pictureBoxScene.Width, pictureBoxScene.Height))
+                sfd.Filter = "Image(*.joeg) | *.jpeg | (*.*|*.*";
+
+                if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    pictureBoxScene.DrawToBitmap(bmp, new System.Drawing.Rectangle(0, 0, pictureBoxScene.Width, pictureBoxScene.Height));
-                    bmp.Save(sfd.FileName);
+                    using (var bmp = new Bitmap(pictureBoxScene.Width, pictureBoxScene.Height))
+                    {
+                        pictureBoxScene.DrawToBitmap(bmp, new Rectangle(0, 0, pictureBoxScene.Width, pictureBoxScene.Height));
+                        bmp.Save(sfd.FileName);
+                    }
                 }
             }
         }
 
         private void buttonSave_Click(object sender, EventArgs e) //zapazva dannite na figyrite
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Filter = "Data(*.data) | *.data | (*.*|*.*";
-
-            if (sfd.ShowDialog() == DialogResult.OK)
+            using (SaveFileDialog sfd = new SaveFileDialog())
             {
-                IFormatter formatter = new BinaryFormatter();
+                sfd.Filter = "Data(*.data) | *.data | (*.*|*.*";
 
-                using (var fileStream = new FileStream(sfd.FileName, FileMode.Create))
+                if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    formatter.Serialize(fileStream, shapes);
-                    formatter.Serialize(fileStream, this.BackColor);
+                    IFormatter formatter = new BinaryFormatter();
+
+                    using (var fileStream = new FileStream(sfd.FileName, FileMode.Create))
+                    {
+                        formatter.Serialize(fileStream, shapes);
+                        formatter.Serialize(fileStream, this.BackColor);
+                    }
                 }
             }
         }
@@ -478,7 +487,6 @@ namespace Paint_bruh
         } //nujno e za paletite na cvetovete
 
         //picturebox
-
         private void pictureBoxScene_DoubleClick(object sender, EventArgs e)
         {
             foreach (var shape in shapes)
@@ -486,27 +494,35 @@ namespace Paint_bruh
                     switch (shape.shapeNumber)
                     {
                         case 1:
-                            var fr = new FormRecangle();
-                            fr.rectangle = (Rectangle)shape;
-                            fr.ShowDialog();
+                            using (var fr = new FormRecangle())
+                            {
+                                fr.Rectangle = (Rectangles)shape;
+                                fr.ShowDialog();
+                            }
                             break;
 
                         case 2:
-                            var fe = new FormEllipse();
-                            fe.ellipse = (Ellipse)shape;
-                            fe.ShowDialog();
+                            using (var fe = new FormEllipse())
+                            {
+                                fe.Ellipse = (Ellipse)shape;
+                                fe.ShowDialog();
+                            }
                             break;
 
                         case 3:
-                            var ft = new FormTriangle();
-                            ft.triangle = (Triangle)shape;
-                            ft.ShowDialog();
+                            using (var ft = new FormTriangle())
+                            {
+                                ft.Triangle = (Triangle)shape;
+                                ft.ShowDialog();
+                            }
                             break;
 
                         case 4:
-                            var fsl = new FormStraightLine();
-                            fsl.straightLine = (StraightLine)shape;
-                            fsl.ShowDialog();
+                            using (var fsl = new FormStraightLine())
+                            {
+                                fsl.StraightLine = (StraightLine)shape;
+                                fsl.ShowDialog();
+                            }
                             break;
                     }
             Invalidate();

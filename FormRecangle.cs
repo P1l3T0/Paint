@@ -2,19 +2,15 @@
 using System.Windows.Forms;
 using PaintBruhLibrary;
 
-using Rectangle = PaintBruhLibrary.Rectangle;
-
 namespace Paint_bruh
 {
     public partial class FormRecangle : Form
     {
-        private Rectangle _rectangle;
-        public Rectangle rectangle 
+        private Rectangles _rectangle;
+        public Rectangles Rectangle 
         {
-            get
-            {
-                return _rectangle;
-            }
+            get => _rectangle;
+            
             set
             {
                 _rectangle = value;
@@ -24,10 +20,9 @@ namespace Paint_bruh
 
                 textBoxWidth.Text = _rectangle.width.ToString();
                 textBoxHeight.Text = _rectangle.height.ToString();
-
-                buttonColor.BackColor = rectangle.colorFill;
-
                 textBoxArea.Text = _rectangle.area.ToString();
+
+                buttonColor.BackColor = Rectangle.colorFill;
             }
         }
 
@@ -40,9 +35,9 @@ namespace Paint_bruh
         {
             try
             {
-                rectangle.width = int.Parse(textBoxWidth.Text);
-                rectangle.height = int.Parse(textBoxHeight.Text);
-                rectangle.colorFill = buttonColor.BackColor;
+                Rectangle.width = int.Parse(textBoxWidth.Text);
+                Rectangle.height = int.Parse(textBoxHeight.Text);
+                Rectangle.colorFill = buttonColor.BackColor;
             }
             catch
             {
@@ -64,6 +59,11 @@ namespace Paint_bruh
 
             if (cd.ShowDialog() == DialogResult.OK)
                 buttonColor.BackColor = cd.Color;
+        }
+
+        private void FormRecangle_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

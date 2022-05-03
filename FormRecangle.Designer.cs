@@ -223,6 +223,7 @@
             this.Name = "FormRecangle";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Rectangle";
+            this.Load += new System.EventHandler(this.FormRecangle_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

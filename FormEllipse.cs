@@ -2,15 +2,13 @@
 using System.Windows.Forms;
 using PaintBruhLibrary;
 
-using Ellipse = PaintBruhLibrary.Ellipse;
-
 namespace Paint_bruh
 {
     public partial class FormEllipse : Form
     {
         private Ellipse _ellipse;
 
-        public Ellipse ellipse
+        public Ellipse Ellipse
         {
             get
             {
@@ -20,15 +18,15 @@ namespace Paint_bruh
             {
                 _ellipse = value;
 
-                textBoxX.Text = ellipse.location.X.ToString();
-                textBoxY.Text = ellipse.location.Y.ToString();
+                textBoxX.Text = Ellipse.location.X.ToString();
+                textBoxY.Text = Ellipse.location.Y.ToString();
 
-                textBoxRadius1.Text = ellipse.radius1.ToString();
-                textBoxRadius2.Text = ellipse.radius2.ToString();
+                textBoxRadius1.Text = Ellipse.radius1.ToString();
+                textBoxRadius2.Text = Ellipse.radius2.ToString();
 
-                textBoxArea.Text = ellipse.area.ToString();
+                textBoxArea.Text = Ellipse.area.ToString();
 
-                buttonColor.BackColor = ellipse.colorFill;
+                buttonColor.BackColor = Ellipse.colorFill;
             }
         }
 
@@ -41,9 +39,9 @@ namespace Paint_bruh
         {
             try
             {
-                ellipse.radius1 = int.Parse(textBoxRadius1.Text);
-                ellipse.radius2 = int.Parse(textBoxRadius2.Text);
-                ellipse.colorFill = buttonColor.BackColor;
+                Ellipse.radius1 = int.Parse(textBoxRadius1.Text);
+                Ellipse.radius2 = int.Parse(textBoxRadius2.Text);
+                Ellipse.colorFill = buttonColor.BackColor;
             }
             catch
             {
