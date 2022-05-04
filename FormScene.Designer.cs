@@ -47,7 +47,7 @@
             this.pictureBoxCursor = new System.Windows.Forms.PictureBox();
             this.panelScreen = new System.Windows.Forms.Panel();
             this.pictureBoxPalette = new System.Windows.Forms.PictureBox();
-            this.pictureBoxScene = new System.Windows.Forms.PictureBox();
+            this.PictureBoxScene = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCircle)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStraightLine)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxTriangle)).BeginInit();
@@ -57,7 +57,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPencil)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCursor)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPalette)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScene)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxScene)).BeginInit();
             this.SuspendLayout();
             // 
             // pictureBoxCircle
@@ -69,7 +69,7 @@
             this.pictureBoxCircle.Size = new System.Drawing.Size(75, 75);
             this.pictureBoxCircle.TabIndex = 0;
             this.pictureBoxCircle.TabStop = false;
-            this.pictureBoxCircle.Click += new System.EventHandler(this.pictureBoxCircle_Click);
+            this.pictureBoxCircle.Click += new System.EventHandler(this.PictureBoxCircle_Click);
             // 
             // pictureBoxStraightLine
             // 
@@ -81,7 +81,7 @@
             this.pictureBoxStraightLine.Size = new System.Drawing.Size(75, 75);
             this.pictureBoxStraightLine.TabIndex = 2;
             this.pictureBoxStraightLine.TabStop = false;
-            this.pictureBoxStraightLine.Click += new System.EventHandler(this.pictureBoxStraightLine_Click);
+            this.pictureBoxStraightLine.Click += new System.EventHandler(this.PictureBoxStraightLine_Click);
             // 
             // pictureBoxTriangle
             // 
@@ -92,7 +92,7 @@
             this.pictureBoxTriangle.Size = new System.Drawing.Size(75, 75);
             this.pictureBoxTriangle.TabIndex = 3;
             this.pictureBoxTriangle.TabStop = false;
-            this.pictureBoxTriangle.Click += new System.EventHandler(this.pictureBoxTriangle_Click);
+            this.pictureBoxTriangle.Click += new System.EventHandler(this.PictureBoxTriangle_Click);
             // 
             // pictureBoxRectangle
             // 
@@ -103,7 +103,7 @@
             this.pictureBoxRectangle.Size = new System.Drawing.Size(75, 75);
             this.pictureBoxRectangle.TabIndex = 4;
             this.pictureBoxRectangle.TabStop = false;
-            this.pictureBoxRectangle.Click += new System.EventHandler(this.pictureBoxRectangle_Click);
+            this.pictureBoxRectangle.Click += new System.EventHandler(this.PictureBoxRectangle_Click);
             // 
             // buttonOpen
             // 
@@ -116,7 +116,7 @@
             this.buttonOpen.Text = "Open";
             this.buttonOpen.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.buttonOpen.UseVisualStyleBackColor = true;
-            this.buttonOpen.Click += new System.EventHandler(this.buttonOpen_Click);
+            this.buttonOpen.Click += new System.EventHandler(this.ButtonOpen_Click);
             // 
             // panel2
             // 
@@ -148,7 +148,7 @@
             this.buttonRight.Text = "Right";
             this.buttonRight.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.buttonRight.UseVisualStyleBackColor = true;
-            this.buttonRight.Click += new System.EventHandler(this.buttonRight_Click);
+            this.buttonRight.Click += new System.EventHandler(this.ButtonRight_Click);
             // 
             // buttonLeft
             // 
@@ -161,7 +161,7 @@
             this.buttonLeft.Text = "Left";
             this.buttonLeft.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.buttonLeft.UseVisualStyleBackColor = true;
-            this.buttonLeft.Click += new System.EventHandler(this.buttonLeft_Click);
+            this.buttonLeft.Click += new System.EventHandler(this.ButtonLeft_Click);
             // 
             // buttonSave
             // 
@@ -174,7 +174,7 @@
             this.buttonSave.Text = "Save";
             this.buttonSave.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
+            this.buttonSave.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
             // buttonImage
             // 
@@ -187,7 +187,7 @@
             this.buttonImage.Text = "Image";
             this.buttonImage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.buttonImage.UseVisualStyleBackColor = true;
-            this.buttonImage.Click += new System.EventHandler(this.buttonImage_Click);
+            this.buttonImage.Click += new System.EventHandler(this.ButtonImage_Click);
             // 
             // buttonColor
             // 
@@ -201,7 +201,7 @@
             this.buttonColor.Size = new System.Drawing.Size(50, 50);
             this.buttonColor.TabIndex = 15;
             this.buttonColor.UseVisualStyleBackColor = false;
-            this.buttonColor.Click += new System.EventHandler(this.buttonColor_Click);
+            this.buttonColor.Click += new System.EventHandler(this.ButtonColor_Click);
             // 
             // buttonClear
             // 
@@ -213,7 +213,7 @@
             this.buttonClear.TabIndex = 14;
             this.buttonClear.Text = "Clear";
             this.buttonClear.UseVisualStyleBackColor = true;
-            this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
+            this.buttonClear.Click += new System.EventHandler(this.ButtonClear_Click);
             // 
             // buttonBGColor
             // 
@@ -228,7 +228,7 @@
             this.buttonBGColor.TabIndex = 13;
             this.buttonBGColor.Text = "background";
             this.buttonBGColor.UseVisualStyleBackColor = false;
-            this.buttonBGColor.Click += new System.EventHandler(this.buttonBGColor_Click);
+            this.buttonBGColor.Click += new System.EventHandler(this.ButtonBGColor_Click);
             // 
             // panel1
             // 
@@ -254,7 +254,7 @@
             this.pictureBoxPencil.Size = new System.Drawing.Size(75, 75);
             this.pictureBoxPencil.TabIndex = 8;
             this.pictureBoxPencil.TabStop = false;
-            this.pictureBoxPencil.Click += new System.EventHandler(this.pictureBoxPencil_Click);
+            this.pictureBoxPencil.Click += new System.EventHandler(this.PictureBoxPencil_Click);
             // 
             // pictureBoxCursor
             // 
@@ -265,7 +265,7 @@
             this.pictureBoxCursor.Size = new System.Drawing.Size(75, 75);
             this.pictureBoxCursor.TabIndex = 7;
             this.pictureBoxCursor.TabStop = false;
-            this.pictureBoxCursor.Click += new System.EventHandler(this.pictureBoxCursor_Click);
+            this.pictureBoxCursor.Click += new System.EventHandler(this.PictureBoxCursor_Click);
             // 
             // panelScreen
             // 
@@ -285,20 +285,20 @@
             this.pictureBoxPalette.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBoxPalette.TabIndex = 10;
             this.pictureBoxPalette.TabStop = false;
-            this.pictureBoxPalette.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBoxPalette_MouseClick);
+            this.pictureBoxPalette.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PictureBoxPalette_MouseClick);
             // 
-            // pictureBoxScene
+            // PictureBoxScene
             // 
-            this.pictureBoxScene.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxScene.Location = new System.Drawing.Point(1, 0);
-            this.pictureBoxScene.Name = "pictureBoxScene";
-            this.pictureBoxScene.Size = new System.Drawing.Size(1268, 766);
-            this.pictureBoxScene.TabIndex = 9;
-            this.pictureBoxScene.TabStop = false;
-            this.pictureBoxScene.DoubleClick += new System.EventHandler(this.pictureBoxScene_DoubleClick);
-            this.pictureBoxScene.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScene_MouseDown);
-            this.pictureBoxScene.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScene_MouseMove);
-            this.pictureBoxScene.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxScene_MouseUp);
+            this.PictureBoxScene.BackColor = System.Drawing.Color.Transparent;
+            this.PictureBoxScene.Location = new System.Drawing.Point(1, 0);
+            this.PictureBoxScene.Name = "PictureBoxScene";
+            this.PictureBoxScene.Size = new System.Drawing.Size(1268, 766);
+            this.PictureBoxScene.TabIndex = 9;
+            this.PictureBoxScene.TabStop = false;
+            this.PictureBoxScene.DoubleClick += new System.EventHandler(this.PictureBoxScene_DoubleClick);
+            this.PictureBoxScene.MouseDown += new System.Windows.Forms.MouseEventHandler(this.PictureBoxScene_MouseDown);
+            this.PictureBoxScene.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PictureBoxScene_MouseMove);
+            this.PictureBoxScene.MouseUp += new System.Windows.Forms.MouseEventHandler(this.PictureBoxScene_MouseUp);
             // 
             // FormScene
             // 
@@ -307,7 +307,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1264, 761);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.pictureBoxScene);
+            this.Controls.Add(this.PictureBoxScene);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
@@ -324,7 +324,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPencil)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCursor)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxPalette)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxScene)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.PictureBoxScene)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -343,7 +343,7 @@
         private System.Windows.Forms.PictureBox pictureBoxCursor;
         private System.Windows.Forms.Button buttonClear;
         private System.Windows.Forms.Button buttonColor;
-        private System.Windows.Forms.PictureBox pictureBoxScene;
+        private System.Windows.Forms.PictureBox PictureBoxScene;
         private System.Windows.Forms.PictureBox pictureBoxPencil;
         private System.Windows.Forms.Button buttonImage;
         private System.Windows.Forms.Button buttonSave;

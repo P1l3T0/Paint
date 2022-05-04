@@ -66,7 +66,7 @@ namespace Paint_bruh
             onPaintGraphics = null;
         }
 
-        private void pictureBoxScene_MouseDown(object sender, MouseEventArgs e)
+        private void PictureBoxScene_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right) //klikash s mishkata i suzdava ramkata na selektiranata figyra
             {
@@ -111,7 +111,7 @@ namespace Paint_bruh
             }
         }
 
-        private void pictureBoxScene_MouseMove(object sender, MouseEventArgs e)
+        private void PictureBoxScene_MouseMove(object sender, MouseEventArgs e)
         {
             pen = new Pen(newColor, 5)
             {
@@ -244,7 +244,7 @@ namespace Paint_bruh
             Invalidate();
         }
 
-        private void pictureBoxScene_MouseUp(object sender, MouseEventArgs e)
+        private void PictureBoxScene_MouseUp(object sender, MouseEventArgs e)
         {
             canDraw = false;
             if (isShapeMoving)
@@ -350,7 +350,7 @@ namespace Paint_bruh
             bitmap = new Bitmap(this.Width, this.Height);
             graphics = Graphics.FromImage(bitmap);
             graphics.Clear(Color.Transparent);
-            pictureBoxScene.Image = bitmap;
+            PictureBoxScene.Image = bitmap;
         }
 
         private void SelectShapes(IEnumerable<Shape> shapes)
@@ -373,7 +373,7 @@ namespace Paint_bruh
 
         //bytoni
 
-        private void buttonColor_Click(object sender, EventArgs e) //smenq cveta newColor)
+        private void ButtonColor_Click(object sender, EventArgs e) //smenq cveta newColor)
         {
             ColorDialog colorDialog = new ColorDialog();
 
@@ -383,7 +383,7 @@ namespace Paint_bruh
             buttonColor.BackColor = newColor;
         }
 
-        private void buttonBGColor_Click(object sender, EventArgs e) //smenq background cveta
+        private void ButtonBGColor_Click(object sender, EventArgs e) //smenq background cveta
         {
             var bgColor = new ColorDialog();
 
@@ -399,7 +399,7 @@ namespace Paint_bruh
                 buttonBGColor.ForeColor = Color.Black;
         }
 
-        private void buttonLeft_Click(object sender, EventArgs e)
+        private void ButtonLeft_Click(object sender, EventArgs e)
         {
             var centerX = Width / 2;
             var leftShapes = shapes.Where(s => s.location.X <= centerX);
@@ -407,7 +407,7 @@ namespace Paint_bruh
             SelectShapes(leftShapes);
         }
 
-        private void buttonRight_Click(object sender, EventArgs e)
+        private void ButtonRight_Click(object sender, EventArgs e)
         {
             var centerX = Width / 2;
             var rightShapes = shapes.Where(s => s.location.X >= centerX);
@@ -415,7 +415,7 @@ namespace Paint_bruh
             SelectShapes(rightShapes);
         }
 
-        private void buttonClear_Click(object sender, EventArgs e) //chisti vsi4ki figyri
+        private void ButtonClear_Click(object sender, EventArgs e) //chisti vsi4ki figyri
         {
             for (int i = shapes.Count() - 1; i >= 0; i--)
                 if (shapes[i].isSelected)
@@ -424,7 +424,7 @@ namespace Paint_bruh
             graphics.Clear(Color.Transparent);
         }
 
-        private void buttonImage_Click(object sender, EventArgs e) //zapazva kato snimka
+        private void ButtonImage_Click(object sender, EventArgs e) //zapazva kato snimka
         {
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
@@ -432,16 +432,16 @@ namespace Paint_bruh
 
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
-                    using (var bmp = new Bitmap(pictureBoxScene.Width, pictureBoxScene.Height))
+                    using (var bmp = new Bitmap(PictureBoxScene.Width, PictureBoxScene.Height))
                     {
-                        pictureBoxScene.DrawToBitmap(bmp, new Rectangle(0, 0, pictureBoxScene.Width, pictureBoxScene.Height));
+                        PictureBoxScene.DrawToBitmap(bmp, new Rectangle(0, 0, PictureBoxScene.Width, PictureBoxScene.Height));
                         bmp.Save(sfd.FileName);
                     }
                 }
             }
         }
 
-        private void buttonSave_Click(object sender, EventArgs e) //zapazva dannite na figyrite
+        private void ButtonSave_Click(object sender, EventArgs e) //zapazva dannite na figyrite
         {
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
@@ -460,7 +460,7 @@ namespace Paint_bruh
             }
         }
 
-        private void buttonOpen_Click(object sender, EventArgs e)
+        private void ButtonOpen_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
@@ -487,7 +487,7 @@ namespace Paint_bruh
         } //nujno e za paletite na cvetovete
 
         //picturebox
-        private void pictureBoxScene_DoubleClick(object sender, EventArgs e)
+        private void PictureBoxScene_DoubleClick(object sender, EventArgs e)
         {
             foreach (var shape in shapes)
                 if (shape.isSelected)
@@ -528,7 +528,7 @@ namespace Paint_bruh
             Invalidate();
         }
 
-        private void pictureBoxPalette_MouseClick(object sender, MouseEventArgs e) //vzema pikselite na picture boks-a i zadava cveta im kum newColor
+        private void PictureBoxPalette_MouseClick(object sender, MouseEventArgs e) //vzema pikselite na picture boks-a i zadava cveta im kum newColor
         {
             Point point = SetPoint(pictureBoxPalette, e.Location);
 
@@ -536,22 +536,22 @@ namespace Paint_bruh
             newColor = buttonColor.BackColor;
         }
 
-        private void pictureBoxRectangle_Click(object sender, EventArgs e)
+        private void PictureBoxRectangle_Click(object sender, EventArgs e)
         {
             buttonIndex = 1;
         }
 
-        private void pictureBoxCircle_Click(object sender, EventArgs e)
+        private void PictureBoxCircle_Click(object sender, EventArgs e)
         {
             buttonIndex = 2;
         }
 
-        private void pictureBoxTriangle_Click(object sender, EventArgs e)
+        private void PictureBoxTriangle_Click(object sender, EventArgs e)
         {
             buttonIndex = 3;
         }
 
-        private void pictureBoxStraightLine_Click(object sender, EventArgs e)
+        private void PictureBoxStraightLine_Click(object sender, EventArgs e)
         {
             buttonIndex = 4;
 
@@ -559,12 +559,12 @@ namespace Paint_bruh
             lsf.ShowDialog();
         }
 
-        private void pictureBoxPencil_Click(object sender, EventArgs e)
+        private void PictureBoxPencil_Click(object sender, EventArgs e)
         {
             buttonIndex = 5;
         }
 
-        private void pictureBoxCursor_Click(object sender, EventArgs e)
+        private void PictureBoxCursor_Click(object sender, EventArgs e)
         {
             buttonIndex = 6;
         }
