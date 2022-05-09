@@ -30,7 +30,6 @@ namespace Paint_bruh
         Graphics onPaintGraphics; //grafichen obekt, s koito prechertavam figyrite
 
         //raboti za moliv/kartinka
-        Pen pen; //moliva
         Bitmap bitmap; //bitmap koito mi trqbva za razmerite na kartinite
         Graphics graphics; //grafichen obekt za izchertavane na liniq kato moliv (trqbva mi i ne moga da polzvam onPaintGraphis) :(
         bool canDraw; //da proverqva dali zadurjam mishakta
@@ -113,7 +112,9 @@ namespace Paint_bruh
 
         private void PictureBoxScene_MouseMove(object sender, MouseEventArgs e)
         {
-            pen = new Pen(newColor, 5)
+            isShapeMoving = true;
+
+            Pen pen = new Pen(newColor, 5)
             {
                 StartCap = LineCap.Round,
                 EndCap = LineCap.Round
@@ -134,12 +135,10 @@ namespace Paint_bruh
                     if (e.Button == MouseButtons.Left)
                     {
                         for (int i = shapes.Count() - 1; i >= 0; i--) //murdane na figyrite s mishkata
-                            if (shapes[i].isSelected)
-                            {
-                                isShapeMoving = true;
+                            if (shapes[i].isSelected && isShapeMoving)
                                 shapes[i].location = e.Location;
-                            }
-                            else shapes[i].isSelected = false;
+                            else 
+                                shapes[i].isSelected = false;
 
                         for (int i = triangles.Count() - 1; i >= 0; i--) //murdane na triugulnicite po mnogo inovativen nachin bruh
                             if (triangles[i].isSelected)
@@ -197,7 +196,7 @@ namespace Paint_bruh
                 frameTriangle.B = b;
                 frameTriangle.C = c;
 
-                frameTriangle.side = Math.Abs(mouseLocation.X - e.Location.X) + Math.Abs(mouseLocation.Y - e.Location.Y);
+                frameTriangle.side = Math.Abs(mouseLocation.X - e.Location.X);
             }
 
             if (frameStraightLine != null)
@@ -246,73 +245,75 @@ namespace Paint_bruh
 
         private void PictureBoxScene_MouseUp(object sender, MouseEventArgs e)
         {
-            canDraw = false;
-            if (isShapeMoving)
-                isShapeMoving = false;
-
             var rng = new Random();
 
-            if (frameRectangle != null) //zapulva figyrite s random cvqt i gi dobavq kum listite
+            if (e.Button == MouseButtons.Right)
             {
-                frameRectangle.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
-                frameRectangle.colorFill = Color.FromArgb(150, frameRectangle.colorBorder);
+                canDraw = false;
+                isShapeMoving = false;
 
-                var selecteShapes = shapes
-                                    .Take(shapes.Count())
-                                    .ToList();
-                selecteShapes.ForEach(x => x.isSelected = false);
+                if (frameRectangle != null) //zapulva figyrite s random cvqt i gi dobavq kum listite
+                {
+                    frameRectangle.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
+                    frameRectangle.colorFill = Color.FromArgb(150, frameRectangle.colorBorder);
 
-                shapes.Add(frameRectangle);
-                frameRectangle.isSelected = true;
-                frameRectangle = null;
+                    var selecteShapes = shapes
+                                        .Take(shapes.Count())
+                                        .ToList();
+                    selecteShapes.ForEach(x => x.isSelected = false);
+
+                    shapes.Add(frameRectangle);
+                    frameRectangle.isSelected = true;
+                    frameRectangle = null;
+                }
+
+                if (frameEllipse != null)
+                {
+                    frameEllipse.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
+                    frameEllipse.colorFill = Color.FromArgb(150, frameEllipse.colorBorder);
+
+                    var selecteShapes = shapes
+                                        .Take(shapes.Count())
+                                        .ToList();
+                    selecteShapes.ForEach(x => x.isSelected = false);
+
+                    shapes.Add(frameEllipse);
+                    frameEllipse.isSelected = true;
+                    frameEllipse = null;
+                }
+
+                if (frameTriangle != null)
+                {
+                    frameTriangle.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
+                    frameTriangle.colorFill = Color.FromArgb(150, frameTriangle.colorBorder);
+
+                    var selecteShapes = shapes
+                                        .Take(shapes.Count())
+                                        .ToList();
+                    selecteShapes.ForEach(x => x.isSelected = false);
+
+                    shapes.Add(frameTriangle);
+                    triangles.Add(frameTriangle);
+                    frameTriangle.isSelected = true;
+                    frameTriangle = null;
+                }
+
+                if (frameStraightLine != null)
+                {
+                    frameStraightLine.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
+                    frameStraightLine.colorFill = Color.FromArgb(150, frameStraightLine.colorBorder);
+
+                    var selecteShapes = shapes
+                                        .Take(shapes.Count())
+                                        .ToList();
+                    selecteShapes.ForEach(x => x.isSelected = false);
+
+                    shapes.Add(frameStraightLine);
+                    frameStraightLine.isSelected = true;
+                    frameStraightLine = null;
+                }
+                //posledno napravenata figyra vinagi e selektirana
             }
-
-            if (frameEllipse != null)
-            {
-                frameEllipse.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
-                frameEllipse.colorFill = Color.FromArgb(150, frameEllipse.colorBorder);
-
-                var selecteShapes = shapes
-                                    .Take(shapes.Count())
-                                    .ToList();
-                selecteShapes.ForEach(x => x.isSelected = false);
-
-                shapes.Add(frameEllipse);
-                frameEllipse.isSelected = true;
-                frameEllipse = null;
-            }
-
-            if (frameTriangle != null)
-            {
-                frameTriangle.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
-                frameTriangle.colorFill = Color.FromArgb(150, frameTriangle.colorBorder);
-
-                var selecteShapes = shapes
-                                    .Take(shapes.Count())
-                                    .ToList();
-                selecteShapes.ForEach(x => x.isSelected = false);
-
-                shapes.Add(frameTriangle);
-                triangles.Add(frameTriangle);
-                frameTriangle.isSelected = true;
-                frameTriangle = null;
-            }
-
-            if (frameStraightLine != null)
-            {
-                frameStraightLine.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
-                frameStraightLine.colorFill = Color.FromArgb(150, frameStraightLine.colorBorder);
-
-                var selecteShapes = shapes
-                                    .Take(shapes.Count())
-                                    .ToList();
-                selecteShapes.ForEach(x => x.isSelected = false);
-
-                shapes.Add(frameStraightLine);
-                frameStraightLine.isSelected = true;
-                frameStraightLine = null;
-            }
-            //posledno napravenata figyra vinagi e selektirana
             Invalidate();
         }
 
@@ -335,18 +336,12 @@ namespace Paint_bruh
                 pictureBoxCursor
             };
 
-            foreach (var pictureBox in pictureBoxes)
-            {
-                pictureBox.MouseHover += (c, e) => pictureBox.BackColor = Color.FromArgb(186, 180, 179);
-                pictureBox.MouseLeave += (c, e) => pictureBox.BackColor = Color.White;
-            }
+            pictureBoxes.ForEach(x => x.MouseHover += (c, e) => x.BackColor = Color.FromArgb(186, 180, 179));
+            pictureBoxes.ForEach(x => x.MouseLeave += (c, e) => x.BackColor = Color.White);
         }
 
         private void BitmapImage()
         {
-            this.Width = 1280;
-            this.Height = 800;
-
             bitmap = new Bitmap(this.Width, this.Height);
             graphics = Graphics.FromImage(bitmap);
             graphics.Clear(Color.Transparent);
@@ -462,19 +457,20 @@ namespace Paint_bruh
 
         private void ButtonOpen_Click(object sender, EventArgs e)
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
-                IFormatter formatter = new BinaryFormatter();
-
-                using (var fileStream = new FileStream(openFileDialog.FileName, FileMode.Open))
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    shapes = (List<Shape>)formatter.Deserialize(fileStream); //prochita zapisanite figyri
-                    this.BackColor = (Color)formatter.Deserialize(fileStream);
-                    buttonBGColor.BackColor = this.BackColor;
+                    IFormatter formatter = new BinaryFormatter();
+
+                    using (var fileStream = new FileStream(openFileDialog.FileName, FileMode.Open))
+                    {
+                        shapes = (List<Shape>)formatter.Deserialize(fileStream); //prochita zapisanite figyri
+                        this.BackColor = (Color)formatter.Deserialize(fileStream);
+                        buttonBGColor.BackColor = this.BackColor;
+                    }
+                    Invalidate();
                 }
-                Invalidate();
             }
         } //otvarq bitovite danni na vechezapisani figyri
 
@@ -487,10 +483,10 @@ namespace Paint_bruh
         } //nujno e za paletite na cvetovete
 
         //picturebox
-        private void PictureBoxScene_DoubleClick(object sender, EventArgs e)
+        private void PictureBoxScene_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             foreach (var shape in shapes)
-                if (shape.isSelected)
+                if (shape.isSelected && e.Button == MouseButtons.Left)
                     switch (shape.shapeNumber)
                     {
                         case 1:
@@ -499,7 +495,7 @@ namespace Paint_bruh
                                 fr.Rectangle = (Rectangles)shape;
                                 fr.ShowDialog();
                             }
-                            break;
+                        break;
 
                         case 2:
                             using (var fe = new FormEllipse())
@@ -507,7 +503,7 @@ namespace Paint_bruh
                                 fe.Ellipse = (Ellipse)shape;
                                 fe.ShowDialog();
                             }
-                            break;
+                        break;
 
                         case 3:
                             using (var ft = new FormTriangle())
@@ -515,7 +511,7 @@ namespace Paint_bruh
                                 ft.Triangle = (Triangle)shape;
                                 ft.ShowDialog();
                             }
-                            break;
+                        break;
 
                         case 4:
                             using (var fsl = new FormStraightLine())
@@ -523,7 +519,7 @@ namespace Paint_bruh
                                 fsl.StraightLine = (StraightLine)shape;
                                 fsl.ShowDialog();
                             }
-                            break;
+                        break;
                     }
             Invalidate();
         }
@@ -620,11 +616,7 @@ namespace Paint_bruh
                     onPaintGraphics.FillPolygon(brush, points); //ne se zapulva vse oshte a ne znam zashto (shte go opravq po natatuka)
 
                 using (var pen = new Pen(colorBorder, 3))
-                {
-                    onPaintGraphics.DrawLine(pen, a, b);
-                    onPaintGraphics.DrawLine(pen, a, c);
-                    onPaintGraphics.DrawLine(pen, b, c);
-                }
+                    onPaintGraphics.DrawPolygon(pen, points);
             }
         }
     }

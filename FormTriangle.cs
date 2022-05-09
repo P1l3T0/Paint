@@ -16,12 +16,12 @@ namespace Paint_bruh
             {
                 _triangle = value;
 
-                textBoxA.Text = Triangle.A.ToString();
-                textBoxB.Text = Triangle.B.ToString();
-                textBoxC.Text = Triangle.C.ToString();
+                textBoxA.Text = _triangle.A.ToString();
+                textBoxB.Text = _triangle.B.ToString();
+                textBoxC.Text = _triangle.C.ToString();
 
-                textBoxSide.Text = Triangle.side.ToString();
-                textBoxArea.Text = Triangle.area.ToString();
+                textBoxSide.Text = _triangle.side.ToString();
+                textBoxArea.Text = _triangle.area.ToString();
 
                 buttonColor.BackColor = Triangle.colorFill;
             }
