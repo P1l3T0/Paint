@@ -40,17 +40,15 @@ namespace Paint_bruh
 
         void AddButons()
         {
-            List<PictureBox> pictureBoxes = new List<PictureBox>();
-
-            pictureBoxes.Add(pictureBoxVerticalLine);
-            pictureBoxes.Add(pictureBoxStraightLine);
-            pictureBoxes.Add(pictureBoxHorizontalLine);
-
-            foreach (var pb in pictureBoxes)
+            List<PictureBox> pb = new List<PictureBox>
             {
-                pb.MouseHover += (s, e) => pb.BackColor = Color.FromArgb(186, 180, 179);
-                pb.MouseLeave += (s, e) => pb.BackColor = Color.White;
-            }
+                pictureBoxVerticalLine,
+                pictureBoxStraightLine,
+                pictureBoxHorizontalLine
+            };
+
+            pb.ForEach(x => x.MouseHover += (c, e) => x.BackColor = Color.FromArgb(186, 180, 179));
+            pb.ForEach(x => x.MouseLeave += (c, e) => x.BackColor = Color.White);
         }
     }
 }

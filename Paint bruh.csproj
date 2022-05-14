@@ -47,16 +47,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormEllipse.cs">
+    <Compile Include="Forms\FormEllipse.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormEllipse.Designer.cs">
+    <Compile Include="Forms\FormEllipse.Designer.cs">
       <DependentUpon>FormEllipse.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormRecangle.cs">
+    <Compile Include="Forms\FormRecangle.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormRecangle.Designer.cs">
+    <Compile Include="Forms\FormRecangle.Designer.cs">
       <DependentUpon>FormRecangle.cs</DependentUpon>
     </Compile>
     <Compile Include="FormScene.cs">
@@ -65,42 +65,42 @@
     <Compile Include="FormScene.Designer.cs">
       <DependentUpon>FormScene.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormStraightLine.cs">
+    <Compile Include="Forms\FormStraightLine.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormStraightLine.Designer.cs">
+    <Compile Include="Forms\FormStraightLine.Designer.cs">
       <DependentUpon>FormStraightLine.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormTriangle.cs">
+    <Compile Include="Forms\FormTriangle.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormTriangle.Designer.cs">
+    <Compile Include="Forms\FormTriangle.Designer.cs">
       <DependentUpon>FormTriangle.cs</DependentUpon>
     </Compile>
-    <Compile Include="LineSelectionForm.cs">
+    <Compile Include="Forms\LineSelectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="LineSelectionForm.Designer.cs">
+    <Compile Include="Forms\LineSelectionForm.Designer.cs">
       <DependentUpon>LineSelectionForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="FormEllipse.resx">
+    <EmbeddedResource Include="Forms\FormEllipse.resx">
       <DependentUpon>FormEllipse.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormRecangle.resx">
+    <EmbeddedResource Include="Forms\FormRecangle.resx">
       <DependentUpon>FormRecangle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormScene.resx">
       <DependentUpon>FormScene.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormStraightLine.resx">
+    <EmbeddedResource Include="Forms\FormStraightLine.resx">
       <DependentUpon>FormStraightLine.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormTriangle.resx">
+    <EmbeddedResource Include="Forms\FormTriangle.resx">
       <DependentUpon>FormTriangle.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="LineSelectionForm.resx">
+    <EmbeddedResource Include="Forms\LineSelectionForm.resx">
       <DependentUpon>LineSelectionForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

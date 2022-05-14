@@ -185,7 +185,7 @@
             this.buttonImage.Text = "Image";
             this.buttonImage.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.buttonImage.UseVisualStyleBackColor = true;
-            this.buttonImage.Click += new System.EventHandler(this.ButtonImage_Click);
+            this.buttonImage.Click += new System.EventHandler(this.ButtonSaveImage_Click);
             // 
             // buttonColor
             // 
@@ -282,7 +282,7 @@
             this.PictureBoxScene.BackColor = System.Drawing.Color.Transparent;
             this.PictureBoxScene.Location = new System.Drawing.Point(1, 0);
             this.PictureBoxScene.Name = "PictureBoxScene";
-            this.PictureBoxScene.Size = new System.Drawing.Size(1907, 1042);
+            this.PictureBoxScene.Size = new System.Drawing.Size(1500, 866);
             this.PictureBoxScene.TabIndex = 9;
             this.PictureBoxScene.TabStop = false;
             this.PictureBoxScene.DoubleClick += new System.EventHandler(this.PictureBoxCursor_Click);
@@ -304,7 +304,7 @@
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.Name = "FormScene";
-            this.Text = "Paint bruh (vektorna grafika edition)";
+            this.Text = "Paintenstein";
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.FormScene_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxCircle)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStraightLine)).EndInit();

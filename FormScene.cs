@@ -43,7 +43,6 @@ namespace Paint_bruh
         public FormScene()
         {
             InitializeComponent();
-
             Buttons();
             BitmapImage();
             FixDialogBox();           
@@ -74,24 +73,10 @@ namespace Paint_bruh
 
                 switch (buttonIndex)
                 {
-                    default:
-                        return;
-
-                    case 1:
-                        frameRectangle = new Rectangles(newColor) { colorBorder = newColor };
-                        break;
-
-                    case 2:
-                        frameEllipse = new Ellipse(newColor) { colorBorder = newColor };
-                        break;
-
-                    case 3:
-                        frameTriangle = new Triangle(newColor) { colorBorder = newColor };
-                        break;
-
-                    case 4:
-                        frameStraightLine = new StraightLine(newColor) { colorBorder = newColor };
-                        break;
+                    case 1: frameRectangle = new Rectangles(newColor) { colorBorder = newColor }; break;
+                    case 2: frameEllipse = new Ellipse(newColor) { colorBorder = newColor }; break;
+                    case 3: frameTriangle = new Triangle(newColor) { colorBorder = newColor }; break;
+                    case 4: frameStraightLine = new StraightLine(newColor) { colorBorder = newColor }; break;
                 }
             }
             else
@@ -103,28 +88,26 @@ namespace Paint_bruh
 
                 for (int s = shapes.Count() - 1; s >= 0; s--)
                     if (shapes[s].PointInShape(e.Location))
-                    {
+                    { 
                         shapes[s].isSelected = true;
-                        break;
+                        break; 
                     }
             }
         }
 
         private void PictureBoxScene_MouseMove(object sender, MouseEventArgs e)
         {
-            isShapeMoving = true;
-
-            Pen pen = new Pen(newColor, 5)
-            {
-                StartCap = LineCap.Round,
-                EndCap = LineCap.Round
-            };
-
             switch (buttonIndex)
             {
                 case 5:
                     if (canDraw)
                     {
+                        Pen pen = new Pen(newColor, 5)
+                        {
+                            StartCap = LineCap.Round,
+                            EndCap = LineCap.Round
+                        };
+
                         Point pointX = e.Location;
                         graphics.DrawLine(pen, pointX, mouseLocation);
                         mouseLocation = pointX;
@@ -134,6 +117,8 @@ namespace Paint_bruh
                 case 6:
                     if (e.Button == MouseButtons.Left)
                     {
+                        isShapeMoving = true;
+
                         for (int i = shapes.Count() - 1; i >= 0; i--) //murdane na figyrite s mishkata
                             if (shapes[i].isSelected && isShapeMoving)
                                 shapes[i].location = e.Location;
@@ -141,7 +126,7 @@ namespace Paint_bruh
                                 shapes[i].isSelected = false;
 
                         for (int i = triangles.Count() - 1; i >= 0; i--) //murdane na triugulnicite po mnogo inovativen nachin bruh
-                            if (triangles[i].isSelected)
+                            if (triangles[i].isSelected && isShapeMoving)
                             {
                                 if (moveA)
                                     triangles[i].A = e.Location;
@@ -202,8 +187,6 @@ namespace Paint_bruh
             if (frameStraightLine != null)
                 switch (lineIndex)
                 {
-                    default: return;
-
                     case 1:
                         frameStraightLine.location = new Point
                         {
@@ -317,6 +300,8 @@ namespace Paint_bruh
             Invalidate();
         }
 
+        //fynkcii
+
         private void FixDialogBox() //opravq gadnoto premigvane, koeto mi dokarva epilepsiq
         {
             SetStyle(ControlStyles.UserPaint |
@@ -326,7 +311,7 @@ namespace Paint_bruh
 
         private void Buttons() //dobavq bytonite na figyrite v list i pravi gotin efekt kogato mishkata e vurhy tqh :)
         {
-            List<PictureBox> pictureBoxes = new List<PictureBox>
+            List<PictureBox> pb = new List<PictureBox>
             {
                 pictureBoxStraightLine,
                 pictureBoxTriangle,
@@ -336,8 +321,8 @@ namespace Paint_bruh
                 pictureBoxCursor
             };
 
-            pictureBoxes.ForEach(x => x.MouseHover += (c, e) => x.BackColor = Color.FromArgb(186, 180, 179));
-            pictureBoxes.ForEach(x => x.MouseLeave += (c, e) => x.BackColor = Color.White);
+            pb.ForEach(x => x.MouseHover += (c, e) => x.BackColor = Color.FromArgb(186, 180, 179));
+            pb.ForEach(x => x.MouseLeave += (c, e) => x.BackColor = Color.White);
         }
 
         private void BitmapImage()
@@ -346,14 +331,6 @@ namespace Paint_bruh
             graphics = Graphics.FromImage(bitmap);
             graphics.Clear(Color.Transparent);
             PictureBoxScene.Image = bitmap;
-        }
-
-        private void SelectShapes(IEnumerable<Shape> shapes)
-        {
-            foreach (var shape in shapes)
-                shape.isSelected = true;
-
-            Invalidate();
         }
 
         private void FormScene_KeyDown(object sender, KeyEventArgs e) //delete byton
@@ -366,11 +343,19 @@ namespace Paint_bruh
             Invalidate();
         }
 
+        private void SelectShapes(IEnumerable<Shape> shapes)
+        {
+            foreach (var shape in shapes)
+                shape.isSelected = true;
+
+            Invalidate();
+        }
+
         //bytoni
 
         private void ButtonColor_Click(object sender, EventArgs e) //smenq cveta newColor)
         {
-            ColorDialog colorDialog = new ColorDialog();
+            var colorDialog = new ColorDialog();
 
             colorDialog.ShowDialog();
             newColor = colorDialog.Color;
@@ -419,7 +404,7 @@ namespace Paint_bruh
             graphics.Clear(Color.Transparent);
         }
 
-        private void ButtonImage_Click(object sender, EventArgs e) //zapazva kato snimka
+        private void ButtonSaveImage_Click(object sender, EventArgs e) //zapazva kato snimka
         {
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
@@ -457,7 +442,7 @@ namespace Paint_bruh
 
         private void ButtonOpen_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            using (OpenFileDialog openFileDialog = new OpenFileDialog()) //otvarq bitovite danni na vechezapisani figyri
             {
                 if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
@@ -472,21 +457,22 @@ namespace Paint_bruh
                     Invalidate();
                 }
             }
-        } //otvarq bitovite danni na vechezapisani figyri
+        } 
 
-        static Point SetPoint(PictureBox pictureBox, Point point)
+        static Point SetPoint(PictureBox pictureBox, Point point) //nujno e za paletite na cvetovete
         {
             float pointX = 1f * pictureBox.Image.Width / pictureBox.Width;
             float pointY = 1f * pictureBox.Image.Height / pictureBox.Height;
 
             return new Point((int)(point.X * pointX), (int)(point.Y * pointY));
-        } //nujno e za paletite na cvetovete
+        } 
 
         //picturebox
+
         private void PictureBoxScene_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             foreach (var shape in shapes)
-                if (shape.isSelected && e.Button == MouseButtons.Left)
+                if (e.Button == MouseButtons.Left && shape.isSelected)
                     switch (shape.shapeNumber)
                     {
                         case 1:
@@ -494,6 +480,7 @@ namespace Paint_bruh
                             {
                                 fr.Rectangle = (Rectangles)shape;
                                 fr.ShowDialog();
+                                buttonIndex = 1;
                             }
                         break;
 
@@ -502,6 +489,7 @@ namespace Paint_bruh
                             {
                                 fe.Ellipse = (Ellipse)shape;
                                 fe.ShowDialog();
+                                buttonIndex = 2;
                             }
                         break;
 
@@ -510,6 +498,7 @@ namespace Paint_bruh
                             {
                                 ft.Triangle = (Triangle)shape;
                                 ft.ShowDialog();
+                                buttonIndex = 3;
                             }
                         break;
 
@@ -518,6 +507,7 @@ namespace Paint_bruh
                             {
                                 fsl.StraightLine = (StraightLine)shape;
                                 fsl.ShowDialog();
+                                buttonIndex = 4;
                             }
                         break;
                     }
@@ -574,10 +564,10 @@ namespace Paint_bruh
                 using (var brush = new SolidBrush(colorFill))
                     onPaintGraphics.FillRectangle(brush, x, y, width, height);
 
-                using (var pen = new Pen(colorBorder, 3))
+                using (var pen = new Pen(colorBorder, 5))
                     onPaintGraphics.DrawRectangle(pen, x, y, width, height);
             }
-        } //metodi ot IGraphics za izchertavane na figyrite
+        } //metodi za izchertavane na figyrite
 
         public void DrawEllipse(Color colorBorder, Color colorFill, int x, int y, int radius1, int radius2)
         {
@@ -586,7 +576,7 @@ namespace Paint_bruh
                 using (var brush = new SolidBrush(colorFill))
                     onPaintGraphics.FillEllipse(brush, x, y, radius1, radius2);
 
-                using (var pen = new Pen(colorBorder, 3))
+                using (var pen = new Pen(colorBorder, 5))
                     onPaintGraphics.DrawEllipse(pen, x, y, radius1, radius2);
             }
         }
@@ -615,7 +605,7 @@ namespace Paint_bruh
                 using (var brush = new SolidBrush(colorFill))
                     onPaintGraphics.FillPolygon(brush, points); //ne se zapulva vse oshte a ne znam zashto (shte go opravq po natatuka)
 
-                using (var pen = new Pen(colorBorder, 3))
+                using (var pen = new Pen(colorBorder, 5))
                     onPaintGraphics.DrawPolygon(pen, points);
             }
         }
