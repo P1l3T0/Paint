@@ -72,6 +72,7 @@
             this.textBoxX.Location = new System.Drawing.Point(30, 10);
             this.textBoxX.Multiline = true;
             this.textBoxX.Name = "textBoxX";
+            this.textBoxX.ReadOnly = true;
             this.textBoxX.Size = new System.Drawing.Size(84, 25);
             this.textBoxX.TabIndex = 28;
             this.textBoxX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -85,6 +86,7 @@
             this.textBoxArea.Location = new System.Drawing.Point(81, 133);
             this.textBoxArea.Multiline = true;
             this.textBoxArea.Name = "textBoxArea";
+            this.textBoxArea.ReadOnly = true;
             this.textBoxArea.Size = new System.Drawing.Size(156, 25);
             this.textBoxArea.TabIndex = 27;
             this.textBoxArea.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -194,6 +196,7 @@
             this.textBoxY.Location = new System.Drawing.Point(162, 10);
             this.textBoxY.Multiline = true;
             this.textBoxY.Name = "textBoxY";
+            this.textBoxY.ReadOnly = true;
             this.textBoxY.Size = new System.Drawing.Size(84, 25);
             this.textBoxY.TabIndex = 29;
             this.textBoxY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

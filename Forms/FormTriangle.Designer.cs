@@ -101,6 +101,7 @@
             this.textBoxArea.Location = new System.Drawing.Point(61, 133);
             this.textBoxArea.Multiline = true;
             this.textBoxArea.Name = "textBoxArea";
+            this.textBoxArea.ReadOnly = true;
             this.textBoxArea.Size = new System.Drawing.Size(176, 25);
             this.textBoxArea.TabIndex = 27;
             this.textBoxArea.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -204,24 +205,24 @@
             // radioButtonC
             // 
             this.radioButtonC.AutoSize = true;
-            this.radioButtonC.Location = new System.Drawing.Point(204, 164);
+            this.radioButtonC.Location = new System.Drawing.Point(166, 164);
             this.radioButtonC.Name = "radioButtonC";
             this.radioButtonC.Size = new System.Drawing.Size(32, 17);
             this.radioButtonC.TabIndex = 36;
             this.radioButtonC.TabStop = true;
-            this.radioButtonC.Text = "C";
+            this.radioButtonC.Text = "B";
             this.radioButtonC.UseVisualStyleBackColor = true;
             this.radioButtonC.CheckedChanged += new System.EventHandler(this.radioButtonC_CheckedChanged);
             // 
             // radioButtonB
             // 
             this.radioButtonB.AutoSize = true;
-            this.radioButtonB.Location = new System.Drawing.Point(166, 164);
+            this.radioButtonB.Location = new System.Drawing.Point(204, 164);
             this.radioButtonB.Name = "radioButtonB";
             this.radioButtonB.Size = new System.Drawing.Size(32, 17);
             this.radioButtonB.TabIndex = 35;
             this.radioButtonB.TabStop = true;
-            this.radioButtonB.Text = "B";
+            this.radioButtonB.Text = "C";
             this.radioButtonB.UseVisualStyleBackColor = true;
             this.radioButtonB.CheckedChanged += new System.EventHandler(this.radioButtonB_CheckedChanged);
             // 

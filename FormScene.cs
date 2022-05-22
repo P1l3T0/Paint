@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
@@ -27,7 +28,7 @@ namespace Paint_bruh
         Point mouseLocation; //lokaciqta na mishkata v realno vreme
         public static Color newColor; //cvqt za ramkite i moliva
 
-        Graphics onPaintGraphics; //grafichen obekt, s koito prechertavam figyrite
+        Graphics onPaintGraphics; //grafichen obekt, s koito prechertavam figyrite 
 
         //raboti za moliv/kartinka
         Bitmap bitmap; //bitmap koito mi trqbva za razmerite na kartinite
@@ -40,12 +41,14 @@ namespace Paint_bruh
         public static int lineIndex; //indeksa na horizontalna/vertikalna/2Point liniq 🐣
         public static bool moveA, moveB, moveC; //murdane ne triugulnik, raboti po mnogo inovativen i ynikalen nachin ;) 
 
+        //linq - .Take(), .Where(), .Reverse(), .ToList(), .ForEach()
+
         public FormScene()
         {
             InitializeComponent();
             Buttons();
             BitmapImage();
-            FixDialogBox();           
+            FixDialogBox();
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -81,17 +84,21 @@ namespace Paint_bruh
             }
             else
             {
-                var unselectShapes = shapes
-                                    .Take(shapes.Count())
-                                    .ToList();
-                unselectShapes.ForEach(s => s.isSelected = false); //figyrata se deselktira sled kato kliknesh izvun neq
+                var deselectShapes = shapes
+                                        .Take(shapes.Count())
+                                        .ToList();
+                deselectShapes.ForEach(s => s.isSelected = false); //figyrata se deselktira sled kato kliknesh izvun neq
 
-                for (int s = shapes.Count() - 1; s >= 0; s--)
-                    if (shapes[s].PointInShape(e.Location))
-                    { 
-                        shapes[s].isSelected = true;
-                        break; 
-                    }
+                var selectOneShape = shapes
+                                        .Take(shapes.Count())
+                                        .Where(s => s.PointInShape(e.Location))
+                                        .Reverse();
+
+                foreach (var shape in selectOneShape)
+                {
+                    shape.isSelected = true; //selektira posledno postavenata figyra koqto se presicha s oshte figyri (trqbva da ima break za da ne se selektirat nqkolko navednuj)
+                    break;
+                }
             }
         }
 
@@ -240,14 +247,8 @@ namespace Paint_bruh
                     frameRectangle.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                     frameRectangle.colorFill = Color.FromArgb(150, frameRectangle.colorBorder);
 
-                    var selecteShapes = shapes
-                                        .Take(shapes.Count())
-                                        .ToList();
-                    selecteShapes.ForEach(x => x.isSelected = false);
-
                     shapes.Add(frameRectangle);
-                    frameRectangle.isSelected = true;
-                    frameRectangle = null;
+                    frameRectangle = null; 
                 }
 
                 if (frameEllipse != null)
@@ -255,13 +256,7 @@ namespace Paint_bruh
                     frameEllipse.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                     frameEllipse.colorFill = Color.FromArgb(150, frameEllipse.colorBorder);
 
-                    var selecteShapes = shapes
-                                        .Take(shapes.Count())
-                                        .ToList();
-                    selecteShapes.ForEach(x => x.isSelected = false);
-
                     shapes.Add(frameEllipse);
-                    frameEllipse.isSelected = true;
                     frameEllipse = null;
                 }
 
@@ -270,14 +265,8 @@ namespace Paint_bruh
                     frameTriangle.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                     frameTriangle.colorFill = Color.FromArgb(150, frameTriangle.colorBorder);
 
-                    var selecteShapes = shapes
-                                        .Take(shapes.Count())
-                                        .ToList();
-                    selecteShapes.ForEach(x => x.isSelected = false);
-
                     shapes.Add(frameTriangle);
                     triangles.Add(frameTriangle);
-                    frameTriangle.isSelected = true;
                     frameTriangle = null;
                 }
 
@@ -286,16 +275,9 @@ namespace Paint_bruh
                     frameStraightLine.colorBorder = Color.FromArgb(rng.Next(255), rng.Next(255), rng.Next(255));
                     frameStraightLine.colorFill = Color.FromArgb(150, frameStraightLine.colorBorder);
 
-                    var selecteShapes = shapes
-                                        .Take(shapes.Count())
-                                        .ToList();
-                    selecteShapes.ForEach(x => x.isSelected = false);
-
                     shapes.Add(frameStraightLine);
-                    frameStraightLine.isSelected = true;
                     frameStraightLine = null;
                 }
-                //posledno napravenata figyra vinagi e selektirana
             }
             Invalidate();
         }
@@ -304,6 +286,10 @@ namespace Paint_bruh
 
         private void FixDialogBox() //opravq gadnoto premigvane, koeto mi dokarva epilepsiq
         {
+            typeof(PictureBox).InvokeMember("DoubleBuffered",
+                BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+                null, PictureBoxScene, new object[] { true });
+
             SetStyle(ControlStyles.UserPaint |
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.AllPaintingInWmPaint, true);
@@ -325,7 +311,7 @@ namespace Paint_bruh
             pb.ForEach(x => x.MouseLeave += (c, e) => x.BackColor = Color.White);
         }
 
-        private void BitmapImage()
+        private void BitmapImage() //trqbva za da se trie moliva
         {
             bitmap = new Bitmap(this.Width, this.Height);
             graphics = Graphics.FromImage(bitmap);
@@ -338,12 +324,12 @@ namespace Paint_bruh
             if (e.KeyCode == Keys.Delete)
                 for (int s = shapes.Count() - 1; s >= 0; s--)
                     if (shapes[s].isSelected)
-                        shapes.RemoveAt(s); 
+                        shapes.RemoveAt(s);
 
             Invalidate();
         }
 
-        private void SelectShapes(IEnumerable<Shape> shapes)
+        private void SelectShapes(IEnumerable<Shape> shapes) 
         {
             foreach (var shape in shapes)
                 shape.isSelected = true;
@@ -442,21 +428,21 @@ namespace Paint_bruh
 
         private void ButtonOpen_Click(object sender, EventArgs e)
         {
-            using (OpenFileDialog openFileDialog = new OpenFileDialog()) //otvarq bitovite danni na vechezapisani figyri
+            using (OpenFileDialog ofd = new OpenFileDialog()) //otvarq bitovite danni na vechezapisani figyri
             {
-                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     IFormatter formatter = new BinaryFormatter();
 
-                    using (var fileStream = new FileStream(openFileDialog.FileName, FileMode.Open))
-                    {
+                    using (var fileStream = new FileStream(ofd.FileName, FileMode.Open))
+                    {                        
                         shapes = (List<Shape>)formatter.Deserialize(fileStream); //prochita zapisanite figyri
                         this.BackColor = (Color)formatter.Deserialize(fileStream);
                         buttonBGColor.BackColor = this.BackColor;
                     }
-                    Invalidate();
                 }
             }
+            Invalidate();
         } 
 
         static Point SetPoint(PictureBox pictureBox, Point point) //nujno e za paletite na cvetovete
@@ -498,7 +484,6 @@ namespace Paint_bruh
                             {
                                 ft.Triangle = (Triangle)shape;
                                 ft.ShowDialog();
-                                buttonIndex = 3;
                             }
                         break;
 

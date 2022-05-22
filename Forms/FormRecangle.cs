@@ -60,10 +60,5 @@ namespace Paint_bruh
             if (cd.ShowDialog() == DialogResult.OK)
                 buttonColor.BackColor = cd.Color;
         }
-
-        private void FormRecangle_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }

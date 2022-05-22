@@ -149,6 +149,7 @@
             this.textBoxArea.Location = new System.Drawing.Point(80, 132);
             this.textBoxArea.Multiline = true;
             this.textBoxArea.Name = "textBoxArea";
+            this.textBoxArea.ReadOnly = true;
             this.textBoxArea.Size = new System.Drawing.Size(148, 26);
             this.textBoxArea.TabIndex = 13;
             this.textBoxArea.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -162,6 +163,7 @@
             this.textBoxX.Location = new System.Drawing.Point(29, 9);
             this.textBoxX.Multiline = true;
             this.textBoxX.Name = "textBoxX";
+            this.textBoxX.ReadOnly = true;
             this.textBoxX.Size = new System.Drawing.Size(76, 26);
             this.textBoxX.TabIndex = 14;
             this.textBoxX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -175,6 +177,7 @@
             this.textBoxY.Location = new System.Drawing.Point(161, 9);
             this.textBoxY.Multiline = true;
             this.textBoxY.Name = "textBoxY";
+            this.textBoxY.ReadOnly = true;
             this.textBoxY.Size = new System.Drawing.Size(76, 26);
             this.textBoxY.TabIndex = 15;
             this.textBoxY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -223,7 +226,6 @@
             this.Name = "FormRecangle";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Rectangle";
-            this.Load += new System.EventHandler(this.FormRecangle_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
