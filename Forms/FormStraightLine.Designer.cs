@@ -100,6 +100,7 @@
             this.textBoxHeight.Location = new System.Drawing.Point(81, 94);
             this.textBoxHeight.Multiline = true;
             this.textBoxHeight.Name = "textBoxHeight";
+            this.textBoxHeight.ReadOnly = true;
             this.textBoxHeight.Size = new System.Drawing.Size(156, 25);
             this.textBoxHeight.TabIndex = 26;
             this.textBoxHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -153,6 +154,7 @@
             this.textBoxWidth.Location = new System.Drawing.Point(81, 63);
             this.textBoxWidth.Multiline = true;
             this.textBoxWidth.Name = "textBoxWidth";
+            this.textBoxWidth.ReadOnly = true;
             this.textBoxWidth.Size = new System.Drawing.Size(156, 25);
             this.textBoxWidth.TabIndex = 21;
             this.textBoxWidth.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -223,6 +225,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "FormStraightLine";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Straight Line";
             this.ResumeLayout(false);
             this.PerformLayout();

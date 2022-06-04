@@ -75,6 +75,7 @@
             this.textBoxB.Location = new System.Drawing.Point(30, 41);
             this.textBoxB.Multiline = true;
             this.textBoxB.Name = "textBoxB";
+            this.textBoxB.ReadOnly = true;
             this.textBoxB.Size = new System.Drawing.Size(206, 25);
             this.textBoxB.TabIndex = 29;
             this.textBoxB.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -88,6 +89,7 @@
             this.textBoxA.Location = new System.Drawing.Point(30, 12);
             this.textBoxA.Multiline = true;
             this.textBoxA.Name = "textBoxA";
+            this.textBoxA.ReadOnly = true;
             this.textBoxA.Size = new System.Drawing.Size(206, 25);
             this.textBoxA.TabIndex = 28;
             this.textBoxA.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -188,6 +190,7 @@
             this.textBoxC.Location = new System.Drawing.Point(30, 69);
             this.textBoxC.Multiline = true;
             this.textBoxC.Name = "textBoxC";
+            this.textBoxC.ReadOnly = true;
             this.textBoxC.Size = new System.Drawing.Size(206, 25);
             this.textBoxC.TabIndex = 33;
             this.textBoxC.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
@@ -263,6 +266,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.Name = "FormTriangle";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Triangle";
             this.ResumeLayout(false);
             this.PerformLayout();

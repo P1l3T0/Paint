@@ -7,7 +7,7 @@ namespace Paint_bruh
     public partial class FormRecangle : Form
     {
         private Rectangles _rectangle;
-        public Rectangles Rectangle 
+        public Rectangles rectangle 
         {
             get => _rectangle;
             
@@ -22,7 +22,7 @@ namespace Paint_bruh
                 textBoxHeight.Text = _rectangle.height.ToString();
                 textBoxArea.Text = _rectangle.area.ToString();
 
-                buttonColor.BackColor = Rectangle.colorFill;
+                buttonColor.BackColor = rectangle.colorFill;
             }
         }
 
@@ -35,9 +35,15 @@ namespace Paint_bruh
         {
             try
             {
-                Rectangle.width = int.Parse(textBoxWidth.Text);
-                Rectangle.height = int.Parse(textBoxHeight.Text);
-                Rectangle.colorFill = buttonColor.BackColor;
+                if (textBoxWidth.Text == "0" || textBoxHeight.Text == "0")
+                {
+                    MessageBox.Show("Value can't be 0!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                rectangle.width = int.Parse(textBoxWidth.Text);
+                rectangle.height = int.Parse(textBoxHeight.Text);
+                rectangle.colorFill = buttonColor.BackColor;
             }
             catch
             {

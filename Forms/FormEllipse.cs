@@ -8,7 +8,7 @@ namespace Paint_bruh
     {
         private Ellipse _ellipse;
 
-        public Ellipse Ellipse
+        public Ellipse ellipse
         {
             get
             {
@@ -18,15 +18,14 @@ namespace Paint_bruh
             {
                 _ellipse = value;
 
-                textBoxX.Text = Ellipse.location.X.ToString();
-                textBoxY.Text = Ellipse.location.Y.ToString();
+                textBoxX.Text = ellipse.location.X.ToString();
+                textBoxY.Text = ellipse.location.Y.ToString();
 
-                textBoxRadius1.Text = Ellipse.radius1.ToString();
-                textBoxRadius2.Text = Ellipse.radius2.ToString();
+                textBoxRadius1.Text = ellipse.radius1.ToString();
+                textBoxRadius2.Text = ellipse.radius2.ToString();
+                textBoxArea.Text = ellipse.area.ToString();
 
-                textBoxArea.Text = Ellipse.area.ToString();
-
-                buttonColor.BackColor = Ellipse.colorFill;
+                buttonColor.BackColor = ellipse.colorFill;
             }
         }
 
@@ -39,9 +38,15 @@ namespace Paint_bruh
         {
             try
             {
-                Ellipse.radius1 = int.Parse(textBoxRadius1.Text);
-                Ellipse.radius2 = int.Parse(textBoxRadius2.Text);
-                Ellipse.colorFill = buttonColor.BackColor;
+                if (textBoxRadius1.Text == "0" || textBoxRadius2.Text == "0")
+                {
+                    MessageBox.Show("Value can't be 0!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+                    return;
+                }
+
+                ellipse.radius1 = int.Parse(textBoxRadius1.Text);
+                ellipse.radius2 = int.Parse(textBoxRadius2.Text);
+                ellipse.colorFill = buttonColor.BackColor;
             }
             catch
             {

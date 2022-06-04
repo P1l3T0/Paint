@@ -8,7 +8,7 @@ namespace Paint_bruh
     {
         private Triangle _triangle;
 
-        public Triangle Triangle
+        public Triangle triangle
         {
             get => _triangle;
 
@@ -23,7 +23,7 @@ namespace Paint_bruh
                 textBoxSide.Text = _triangle.side.ToString();
                 textBoxArea.Text = _triangle.area.ToString();
 
-                buttonColor.BackColor = Triangle.colorFill;
+                buttonColor.BackColor = triangle.colorFill;
             }
         }
         public FormTriangle()
@@ -35,8 +35,14 @@ namespace Paint_bruh
         {
             try
             {
-                Triangle.side = int.Parse(textBoxSide.Text);
-                Triangle.colorFill = buttonColor.BackColor;
+                if (textBoxSide.Text == "0")
+                {
+                    MessageBox.Show("Value can't be 0!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                triangle.side = int.Parse(textBoxSide.Text);
+                triangle.colorFill = buttonColor.BackColor;
             }
             catch
             {

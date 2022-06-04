@@ -222,6 +222,7 @@
             this.Controls.Add(this.labelX);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FormEllipse";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Ellipse";
             this.ResumeLayout(false);
             this.PerformLayout();

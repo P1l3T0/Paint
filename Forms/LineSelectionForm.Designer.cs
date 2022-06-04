@@ -142,6 +142,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LineSelectionForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Line Selection";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxStraightLine)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxVerticalLine)).EndInit();

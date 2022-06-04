@@ -4,10 +4,10 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
+using System.Reflection;
 using PaintBruhLibrary;
 
 namespace Paint_bruh
@@ -41,7 +41,7 @@ namespace Paint_bruh
         public static int lineIndex; //indeksa na horizontalna/vertikalna/2Point liniq 🐣
         public static bool moveA, moveB, moveC; //murdane ne triugulnik, raboti po mnogo inovativen i ynikalen nachin ;) 
 
-        //linq - .Take(), .Where(), .Reverse(), .ToList(), .ForEach()
+        //LINQ - .Take(), .Where(), .Reverse(), .ToList(), .ForEach()
 
         public FormScene()
         {
@@ -84,11 +84,6 @@ namespace Paint_bruh
             }
             else
             {
-                var deselectShapes = shapes
-                                        .Take(shapes.Count())
-                                        .ToList();
-                deselectShapes.ForEach(s => s.isSelected = false); //figyrata se deselktira sled kato kliknesh izvun neq
-
                 var selectOneShape = shapes
                                         .Take(shapes.Count())
                                         .Where(s => s.PointInShape(e.Location))
@@ -99,6 +94,11 @@ namespace Paint_bruh
                     shape.isSelected = true; //selektira posledno postavenata figyra koqto se presicha s oshte figyri (trqbva da ima break za da ne se selektirat nqkolko navednuj)
                     break;
                 }
+
+                var deselectShapes = shapes
+                                        .Take(shapes.Count())
+                                        .ToList();
+                deselectShapes.ForEach(s => s.isSelected = false); //figyrata se deselktira sled kato kliknesh izvun neq
             }
         }
 
@@ -287,7 +287,7 @@ namespace Paint_bruh
         private void FixDialogBox() //opravq gadnoto premigvane, koeto mi dokarva epilepsiq
         {
             typeof(PictureBox).InvokeMember("DoubleBuffered",
-                BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+                BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic, //optimizira edin vid picturebox-a, no go dobavih sled krainiq srok (samo za testvane)
                 null, PictureBoxScene, new object[] { true });
 
             SetStyle(ControlStyles.UserPaint |
@@ -464,7 +464,7 @@ namespace Paint_bruh
                         case 1:
                             using (var fr = new FormRecangle())
                             {
-                                fr.Rectangle = (Rectangles)shape;
+                                fr.rectangle = (Rectangles)shape;
                                 fr.ShowDialog();
                                 buttonIndex = 1;
                             }
@@ -473,7 +473,7 @@ namespace Paint_bruh
                         case 2:
                             using (var fe = new FormEllipse())
                             {
-                                fe.Ellipse = (Ellipse)shape;
+                                fe.ellipse = (Ellipse)shape;
                                 fe.ShowDialog();
                                 buttonIndex = 2;
                             }
@@ -482,7 +482,7 @@ namespace Paint_bruh
                         case 3:
                             using (var ft = new FormTriangle())
                             {
-                                ft.Triangle = (Triangle)shape;
+                                ft.triangle = (Triangle)shape;
                                 ft.ShowDialog();
                             }
                         break;
@@ -490,7 +490,7 @@ namespace Paint_bruh
                         case 4:
                             using (var fsl = new FormStraightLine())
                             {
-                                fsl.StraightLine = (StraightLine)shape;
+                                fsl.straightLine = (StraightLine)shape;
                                 fsl.ShowDialog();
                                 buttonIndex = 4;
                             }

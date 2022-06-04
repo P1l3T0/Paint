@@ -8,7 +8,7 @@ namespace Paint_bruh
     {
         private StraightLine _straightLine;
 
-        public StraightLine StraightLine
+        public StraightLine straightLine
         {
             get => _straightLine;
 
@@ -23,7 +23,7 @@ namespace Paint_bruh
                 textBoxHeight.Text = _straightLine.height.ToString();
                 textBoxArea.Text = _straightLine.area.ToString();
 
-                buttonColor.BackColor = StraightLine.colorFill;
+                buttonColor.BackColor = straightLine.colorFill;
             }
         }
 
@@ -34,7 +34,7 @@ namespace Paint_bruh
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            StraightLine.colorBorder = buttonColor.BackColor;
+            straightLine.colorBorder = buttonColor.BackColor;
             DialogResult = DialogResult.OK;
         }
 
