@@ -325,7 +325,7 @@ namespace Paint_bruh
                 for (int s = shapes.Count() - 1; s >= 0; s--)
                     if (shapes[s].isSelected)
                         shapes.RemoveAt(s);
-
+            
             Invalidate();
         }
 
@@ -333,7 +333,7 @@ namespace Paint_bruh
         {
             foreach (var shape in shapes)
                 shape.isSelected = true;
-
+                
             Invalidate();
         }
 
@@ -342,23 +342,23 @@ namespace Paint_bruh
         private void ButtonColor_Click(object sender, EventArgs e) //smenq cveta newColor)
         {
             var colorDialog = new ColorDialog();
-
+            
             colorDialog.ShowDialog();
             newColor = colorDialog.Color;
-
+            
             buttonColor.BackColor = newColor;
         }
 
         private void ButtonBGColor_Click(object sender, EventArgs e) //smenq background cveta
         {
             var bgColor = new ColorDialog();
-
+            
             if (bgColor.ShowDialog() == DialogResult.OK)
             {
                 this.BackColor = bgColor.Color;
                 buttonBGColor.BackColor = bgColor.Color;
             }
-
+            
             if (bgColor.Color == Color.Black)
                 buttonBGColor.ForeColor = Color.White;
             else
@@ -369,7 +369,7 @@ namespace Paint_bruh
         {
             var centerX = Width / 2;
             var leftShapes = shapes.Where(s => s.location.X <= centerX);
-
+            
             SelectShapes(leftShapes);
         }
 
@@ -377,7 +377,7 @@ namespace Paint_bruh
         {
             var centerX = Width / 2;
             var rightShapes = shapes.Where(s => s.location.X >= centerX);
-
+            
             SelectShapes(rightShapes);
         }
 
@@ -386,7 +386,7 @@ namespace Paint_bruh
             for (int i = shapes.Count() - 1; i >= 0; i--)
                 if (shapes[i].isSelected)
                     shapes.RemoveAt(i);
-
+            
             graphics.Clear(Color.Transparent);
         }
 
@@ -395,7 +395,7 @@ namespace Paint_bruh
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
                 sfd.Filter = "Image(*.joeg) | *.jpeg | (*.*|*.*";
-
+                
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     using (var bmp = new Bitmap(PictureBoxScene.Width, PictureBoxScene.Height))
@@ -412,11 +412,11 @@ namespace Paint_bruh
             using (SaveFileDialog sfd = new SaveFileDialog())
             {
                 sfd.Filter = "Data(*.data) | *.data | (*.*|*.*";
-
+                
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     IFormatter formatter = new BinaryFormatter();
-
+                    
                     using (var fileStream = new FileStream(sfd.FileName, FileMode.Create))
                     {
                         formatter.Serialize(fileStream, shapes);
@@ -433,7 +433,7 @@ namespace Paint_bruh
                 if (ofd.ShowDialog() == DialogResult.OK)
                 {
                     IFormatter formatter = new BinaryFormatter();
-
+                    
                     using (var fileStream = new FileStream(ofd.FileName, FileMode.Open))
                     {                        
                         shapes = (List<Shape>)formatter.Deserialize(fileStream); //prochita zapisanite figyri
@@ -469,7 +469,7 @@ namespace Paint_bruh
                                 buttonIndex = 1;
                             }
                         break;
-
+                        
                         case 2:
                             using (var fe = new FormEllipse())
                             {
@@ -478,7 +478,7 @@ namespace Paint_bruh
                                 buttonIndex = 2;
                             }
                         break;
-
+                        
                         case 3:
                             using (var ft = new FormTriangle())
                             {
@@ -486,7 +486,7 @@ namespace Paint_bruh
                                 ft.ShowDialog();
                             }
                         break;
-
+                        
                         case 4:
                             using (var fsl = new FormStraightLine())
                             {
@@ -589,7 +589,7 @@ namespace Paint_bruh
             {
                 using (var brush = new SolidBrush(colorFill))
                     onPaintGraphics.FillPolygon(brush, points); //ne se zapulva vse oshte a ne znam zashto (shte go opravq po natatuka)
-
+                
                 using (var pen = new Pen(colorBorder, 5))
                     onPaintGraphics.DrawPolygon(pen, points);
             }
