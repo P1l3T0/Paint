@@ -146,7 +146,7 @@ namespace Paint_bruh
                     break;
             }
 
-            if (frameRectangle != null) //koordinati, razmeri i tochki na novosuzdadenite figyri
+            if (frameRectangle != null) //koordinati, razmeri i tochki na novosuzdadenite figyri ay ay
             {
                 frameRectangle.location = new Point
                 {
